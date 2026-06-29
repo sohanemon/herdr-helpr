@@ -32,7 +32,7 @@ export function RenameWorkspacePrompt() {
     (async () => {
       try {
         const info = await herdr("workspace", "list");
-        const ws = info?.result?.workspaces?.find((w: any) => w.focused);
+        const ws = info?.result?.workspaces?.find((w: { workspace_id: string; label: string; focused?: boolean }) => w.focused);
         if (ws) {
           setCurrentLabel(ws.label);
           setWsId(ws.workspace_id);
@@ -41,8 +41,8 @@ export function RenameWorkspacePrompt() {
           setErrorMsg("No focused workspace");
           setPhase("error");
         }
-      } catch (e: any) {
-        setErrorMsg(e.message || String(e));
+      } catch (e: unknown) {
+        setErrorMsg(e instanceof Error ? e.message : String(e));
         setPhase("error");
       }
     })();
@@ -55,8 +55,8 @@ export function RenameWorkspacePrompt() {
       await herdrRun("workspace", "rename", wsId, name.trim());
       setPhase("done");
       setTimeout(() => process.exit(0), 800);
-    } catch (e: any) {
-      setErrorMsg(e.message || String(e));
+    } catch (e: unknown) {
+      setErrorMsg(e instanceof Error ? e.message : String(e));
       setPhase("error");
     }
   };

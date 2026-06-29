@@ -8,7 +8,7 @@
  *   prompt-close-other-tabs
  *   prompt-close-other-panes
  */
-import React from "react";
+import type React from "react";
 import { render, Box, Text, useStdout } from "ink";
 import { ThemeProvider } from "./components/ui/theme-provider";
 import { NewWorkspacePrompt } from "./features/new-workspace";

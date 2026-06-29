@@ -26,8 +26,8 @@ export function NewWorkspacePrompt() {
       await herdrRun(...args);
       setPhase("done");
       setTimeout(() => process.exit(0), 800);
-    } catch (e: any) {
-      setErrorMsg(e.message || String(e));
+    } catch (e: unknown) {
+      setErrorMsg(e instanceof Error ? e.message : String(e));
       setPhase("error");
     }
   };

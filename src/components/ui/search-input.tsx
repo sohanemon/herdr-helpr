@@ -110,8 +110,10 @@ export const SearchInput = <T = string>({
 
     if (key.return) {
       if (showResults && filteredResults.length > 0) {
-        onSelect?.(filteredResults[selectedIndex]);
-        setQuery(getItemValue(filteredResults[selectedIndex]));
+        const result = filteredResults[selectedIndex];
+        if (!result) return;
+        onSelect?.(result);
+        setQuery(getItemValue(result));
         setShowResults(false);
         setSelectedIndex(0);
       }
@@ -160,7 +162,7 @@ export const SearchInput = <T = string>({
           {filteredResults.map((item, idx) => {
             const isSelected = idx === selectedIndex;
             return (
-              <Box key={idx} flexDirection="row">
+              <Box key={getItemValue(item)} flexDirection="row">
                 <Text color={isSelected ? theme.colors.focusRing : theme.colors.mutedForeground}>
                   {isSelected ? resultCursor : "".repeat(resultCursor.length)}
                 </Text>

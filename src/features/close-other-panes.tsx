@@ -27,7 +27,7 @@ export function CloseOtherPanesPrompt() {
     (async () => {
       try {
         const list = await herdr("pane", "list");
-        const focused = list?.result?.panes?.find((p: any) => p.focused)?.pane_id;
+        const focused = list?.result?.panes?.find((p: { pane_id: string; focused?: boolean }) => p.focused)?.pane_id;
         if (!focused) {
           setMsg("No focused pane");
           setPhase("done");
@@ -45,8 +45,8 @@ export function CloseOtherPanesPrompt() {
         setCount(closed);
         setPhase("done");
         setTimeout(() => process.exit(0), 1200);
-      } catch (e: any) {
-        setMsg(e.message || String(e));
+      } catch (e: unknown) {
+        setMsg(e instanceof Error ? e.message : String(e));
         setPhase("error");
       }
     })();

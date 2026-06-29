@@ -33,7 +33,7 @@ export const Select = <T = string>({
 
   const resolvedCursorColor = cursorColor ?? theme.colors.primary;
 
-  useInput((input, key) => {
+  useInput((_input, key) => {
     if (key.upArrow) {
       setActiveIndex((i) => {
         let next = i - 1;
@@ -76,7 +76,7 @@ export const Select = <T = string>({
         }
 
         return (
-          <Box key={idx} gap={1}>
+          <Box key={opt.value as unknown as string} gap={1}>
             <Text color={isActive ? resolvedCursorColor : undefined}>{isActive ? cursor : ""}</Text>
             <Text color={optColor} bold={isActive || isSelected} dimColor={opt.disabled}>
               {opt.label}

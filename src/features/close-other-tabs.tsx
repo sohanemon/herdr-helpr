@@ -27,7 +27,7 @@ export function CloseOtherTabsPrompt() {
     (async () => {
       try {
         const list = await herdr("tab", "list");
-        const focused = list?.result?.tabs?.find((t: any) => t.focused)?.tab_id;
+        const focused = list?.result?.tabs?.find((t: { tab_id: string; focused?: boolean }) => t.focused)?.tab_id;
         if (!focused) { setMsg("No focused tab"); setPhase("done"); return; }
 
         const wsCount: Record<string, number> = {};
@@ -40,9 +40,9 @@ export function CloseOtherTabsPrompt() {
         for (const tab of list.result.tabs) {
           if (tab.tab_id === focused) continue;
           const wsKey = tab.tab_id.split(":")[0];
-          if ((wsCount[wsKey] ?? 0) <= 1) continue;
-          // @ts-expect-error could be undefined;
-          (wsCount?.[wsKey])--;
+          const n = wsCount[wsKey] ?? 0;
+          if (n <= 1) continue;
+          wsCount[wsKey] = n - 1;
           await herdrRun("tab", "close", tab.tab_id);
           closed++;
         }
@@ -50,8 +50,8 @@ export function CloseOtherTabsPrompt() {
         setCount(closed);
         setPhase("done");
         setTimeout(() => process.exit(0), 1200);
-      } catch (e: any) {
-        setMsg(e.message || String(e));
+      } catch (e: unknown) {
+        setMsg(e instanceof Error ? e.message : String(e));
         setPhase("error");
       }
     })();
