@@ -1,13 +1,14 @@
 #!/usr/bin/env bun
 import { Box, Text } from "ink";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Panel } from "@/components/ui/panel";
+import { TaskError, TaskSuccess } from "@/components/ui/task-result";
+import { TaskRunning } from "@/components/ui/task-running";
 import { useTheme } from "@/components/ui/theme-provider";
-import { Spinner } from "@/components/ui/spinner";
 import { herdrJson, herdrRun } from "@/lib/herdr";
-import { formatError } from "@/lib/utils";
 import { renderPrompt } from "@/lib/render";
+import { formatError } from "@/lib/utils";
 
 export function RenameWorkspacePrompt() {
   const [name, setName] = useState("");
@@ -22,7 +23,9 @@ export function RenameWorkspacePrompt() {
   useEffect(() => {
     (async () => {
       try {
-        const info = await herdrJson<{ result?: { workspaces?: { workspace_id: string; label: string; focused?: boolean }[] } }>("workspace", "list");
+        const info = await herdrJson<{
+          result?: { workspaces?: { workspace_id: string; label: string; focused?: boolean }[] };
+        }>("workspace", "list");
         const workspaces = info?.result?.workspaces;
         const ws = workspaces?.find((w) => w.focused);
         if (ws) {
@@ -57,12 +60,7 @@ export function RenameWorkspacePrompt() {
 
   return (
     <Panel title="Rename Workspace">
-      {phase === "loading" && (
-        <Box gap={1}>
-          <Spinner type="dots" />
-          <Text color={theme.colors.mutedForeground}>Loading...</Text>
-        </Box>
-      )}
+      {phase === "loading" && <TaskRunning label="Loading..." />}
       {phase === "input" && (
         <Box flexDirection="column">
           <Box marginBottom={1}>
@@ -83,20 +81,15 @@ export function RenameWorkspacePrompt() {
       )}
       {phase === "renaming" && (
         <Box flexDirection="column">
-          <Box gap={1}>
-            <Spinner type="dots" />
-            <Text color={theme.colors.mutedForeground}>Renaming workspace...</Text>
-          </Box>
+          <TaskRunning label="Renaming workspace..." />
           <Box marginTop={1}>
             <Text color={theme.colors.mutedForeground}>New name: </Text>
             <Text>{name.trim()}</Text>
           </Box>
         </Box>
       )}
-      {phase === "done" && (
-        <Text color={theme.colors.success}>✓ Workspace renamed to "{name.trim()}"</Text>
-      )}
-      {phase === "error" && <Text color={theme.colors.error}>✗ {errorMsg}</Text>}
+      {phase === "done" && <TaskSuccess message={`Workspace renamed to "${name.trim()}"`} />}
+      {phase === "error" && <TaskError message={errorMsg} />}
     </Panel>
   );
 }

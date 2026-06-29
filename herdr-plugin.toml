@@ -5,7 +5,7 @@ id = "herdr-helpr"
 name = "Herdr Helpr"
 version = "0.1.0"
 min_herdr_version = "0.7.0"
-description = "A swiss-army knife of herdr helpers: create named workspaces, close other tabs/panes, rename workspaces interactively, and more."
+description = "A swiss-army knife of herdr: create named workspaces, close other tabs/panes, rename workspaces interactively, and more."
 platforms = ["linux", "macos"]
 
 # Build: install npm dependencies
@@ -59,3 +59,4 @@ id = "pane:close-other"
 title = "Close Other Panes"
 placement = "overlay"
 command = ["bun", "run", "src/features/close-other-panes.tsx"]
+

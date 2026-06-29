@@ -3,11 +3,12 @@ import { Box, Text } from "ink";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Panel } from "@/components/ui/panel";
-import { Spinner } from "@/components/ui/spinner";
+import { TaskError, TaskSuccess } from "@/components/ui/task-result";
+import { TaskRunning } from "@/components/ui/task-running";
 import { useTheme } from "@/components/ui/theme-provider";
 import { herdrRun } from "@/lib/herdr";
-import { formatError } from "@/lib/utils";
 import { renderPrompt } from "@/lib/render";
+import { formatError } from "@/lib/utils";
 
 export function NewWorkspacePrompt() {
   const [name, setName] = useState("");
@@ -46,10 +47,7 @@ export function NewWorkspacePrompt() {
       )}
       {phase === "creating" && (
         <Box flexDirection="column">
-          <Box gap={1}>
-            <Spinner type="dots" />
-            <Text color={theme.colors.mutedForeground}>Creating workspace...</Text>
-          </Box>
+          <TaskRunning label="Creating workspace..." />
           {name.trim() && (
             <Box marginTop={1}>
               <Text color={theme.colors.mutedForeground}>Name: </Text>
@@ -59,11 +57,11 @@ export function NewWorkspacePrompt() {
         </Box>
       )}
       {phase === "done" && (
-        <Text color={theme.colors.success}>
-          ✓ {name.trim() ? `Workspace "${name.trim()}" created` : "Workspace created"}
-        </Text>
+        <TaskSuccess
+          message={name.trim() ? `Workspace "${name.trim()}" created` : "Workspace created"}
+        />
       )}
-      {phase === "error" && <Text color={theme.colors.error}>✗ {errorMsg}</Text>}
+      {phase === "error" && <TaskError message={errorMsg} />}
     </Panel>
   );
 }
