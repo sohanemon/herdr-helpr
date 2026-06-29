@@ -1,11 +1,13 @@
+#!/usr/bin/env bun
 import { Box, Text } from "ink";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Panel } from "@/components/ui/panel";
-import { Spinner } from "@/components/ui/spinner";
 import { useTheme } from "@/components/ui/theme-provider";
+import { Spinner } from "@/components/ui/spinner";
 import { herdrJson, herdrRun } from "@/lib/herdr";
 import { formatError } from "@/lib/utils";
+import { renderPrompt } from "@/lib/render";
 
 export function RenameWorkspacePrompt() {
   const [name, setName] = useState("");
@@ -20,9 +22,7 @@ export function RenameWorkspacePrompt() {
   useEffect(() => {
     (async () => {
       try {
-        const info = await herdrJson<{
-          result?: { workspaces?: { workspace_id: string; label: string; focused?: boolean }[] };
-        }>("workspace", "list");
+        const info = await herdrJson<{ result?: { workspaces?: { workspace_id: string; label: string; focused?: boolean }[] } }>("workspace", "list");
         const workspaces = info?.result?.workspaces;
         const ws = workspaces?.find((w) => w.focused);
         if (ws) {
@@ -99,4 +99,8 @@ export function RenameWorkspacePrompt() {
       {phase === "error" && <Text color={theme.colors.error}>✗ {errorMsg}</Text>}
     </Panel>
   );
+}
+
+if (import.meta.main) {
+  await renderPrompt(<RenameWorkspacePrompt />);
 }

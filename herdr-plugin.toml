@@ -15,47 +15,47 @@ command = ["bun", "install"]
 # ── Actions (background — open overlay pane) ─────────
 
 [[actions]]
-id = "new-workspace"
-title = "New Workspace (with name prompt)"
-command = ["bun", "run", "src/actions.ts", "new-workspace"]
+id = "workspace:create"
+title = "New Workspace"
+command = ["bun", "run", "src/actions.ts", "workspace:create"]
 
 [[actions]]
-id = "rename-workspace"
-title = "Rename Workspace (with name prompt)"
-command = ["bun", "run", "src/actions.ts", "rename-workspace"]
+id = "workspace:rename"
+title = "Rename Workspace"
+command = ["bun", "run", "src/actions.ts", "workspace:rename"]
 
 [[actions]]
-id = "close-other-tabs"
+id = "tab:close-other"
 title = "Close Other Tabs"
-command = ["bun", "run", "src/actions.ts", "close-other-tabs"]
+command = ["bun", "run", "src/actions.ts", "tab:close-other"]
 
 [[actions]]
-id = "close-other-panes"
+id = "pane:close-other"
 title = "Close Other Panes"
-command = ["bun", "run", "src/actions.ts", "close-other-panes"]
+command = ["bun", "run", "src/actions.ts", "pane:close-other"]
 
 # ── Panes (interactive Ink TUI overlays) ──────────────
 
 [[panes]]
-id = "prompt-new-workspace"
+id = "workspace:create"
 title = "New Workspace"
 placement = "overlay"
-command = ["bun", "run", "src/index.tsx", "prompt-new-workspace"]
+command = ["bun", "run", "src/features/new-workspace.tsx"]
 
 [[panes]]
-id = "prompt-rename-workspace"
+id = "workspace:rename"
 title = "Rename Workspace"
 placement = "overlay"
-command = ["bun", "run", "src/index.tsx", "prompt-rename-workspace"]
+command = ["bun", "run", "src/features/rename-workspace.tsx"]
 
 [[panes]]
-id = "prompt-close-other-tabs"
+id = "tab:close-other"
 title = "Close Other Tabs"
 placement = "overlay"
-command = ["bun", "run", "src/index.tsx", "prompt-close-other-tabs"]
+command = ["bun", "run", "src/features/close-other-tabs.tsx"]
 
 [[panes]]
-id = "prompt-close-other-panes"
+id = "pane:close-other"
 title = "Close Other Panes"
 placement = "overlay"
-command = ["bun", "run", "src/index.tsx", "prompt-close-other-panes"]
+command = ["bun", "run", "src/features/close-other-panes.tsx"]

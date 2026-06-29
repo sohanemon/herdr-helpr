@@ -1,10 +1,12 @@
+#!/usr/bin/env bun
 import { Box, Text } from "ink";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Panel } from "@/components/ui/panel";
-import { Spinner } from "@/components/ui/spinner";
 import { useTheme } from "@/components/ui/theme-provider";
+import { Spinner } from "@/components/ui/spinner";
 import { herdrJson, herdrRun } from "@/lib/herdr";
 import { formatError } from "@/lib/utils";
+import { renderPrompt } from "@/lib/render";
 
 export function CloseOtherTabsPrompt() {
   const [phase, setPhase] = useState<"running" | "done" | "error">("running");
@@ -15,9 +17,7 @@ export function CloseOtherTabsPrompt() {
   useEffect(() => {
     (async () => {
       try {
-        const list = await herdrJson<{
-          result?: { tabs?: { tab_id: string; focused?: boolean }[] };
-        }>("tab", "list");
+        const list = await herdrJson<{ result?: { tabs?: { tab_id: string; focused?: boolean }[] } }>("tab", "list");
         const tabs = list?.result?.tabs;
         const focused = tabs?.find((t) => t.focused)?.tab_id;
         if (!tabs || !focused) {
@@ -66,7 +66,13 @@ export function CloseOtherTabsPrompt() {
           ✓ Closed {count} tab{count !== 1 ? "s" : ""}
         </Text>
       )}
-      {phase === "error" && <Text color={theme.colors.error}>✗ {msg}</Text>}
+      {phase === "error" && (
+        <Text color={theme.colors.error}>✗ {msg}</Text>
+      )}
     </Panel>
   );
+}
+
+if (import.meta.main) {
+  await renderPrompt(<CloseOtherTabsPrompt />);
 }

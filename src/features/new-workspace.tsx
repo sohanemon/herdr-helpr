@@ -1,3 +1,4 @@
+#!/usr/bin/env bun
 import { Box, Text } from "ink";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -6,6 +7,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { useTheme } from "@/components/ui/theme-provider";
 import { herdrRun } from "@/lib/herdr";
 import { formatError } from "@/lib/utils";
+import { renderPrompt } from "@/lib/render";
 
 export function NewWorkspacePrompt() {
   const [name, setName] = useState("");
@@ -64,4 +66,8 @@ export function NewWorkspacePrompt() {
       {phase === "error" && <Text color={theme.colors.error}>✗ {errorMsg}</Text>}
     </Panel>
   );
+}
+
+if (import.meta.main) {
+  await renderPrompt(<NewWorkspacePrompt />);
 }
