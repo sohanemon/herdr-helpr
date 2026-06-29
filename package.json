@@ -8,7 +8,7 @@
     "@types/react": "^19.2.17"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "typescript": "^5 || ^6.0.0"
   },
   "dependencies": {
     "ink": "4",
