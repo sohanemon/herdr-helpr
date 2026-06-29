@@ -1,7 +1,6 @@
 import { Box, Text, useFocus, useInput } from "ink";
 import { useCallback, useMemo, useState } from "react";
 import type { BorderStyle } from "./theme-provider";
-import { useTheme } from "./theme-provider";
 
 export interface SearchInputProps<T = string> {
   options?: T[];
@@ -33,13 +32,12 @@ export const SearchInput = <T = string>({
   borderStyle = "round",
   paddingX = 1,
   cursor = "█",
-  searchIcon = "🔍",
+  searchIcon = "\uD83D\uDD0D",
   resultCursor = "›",
 }: SearchInputProps<T>) => {
   const [internalValue, setInternalValue] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [showResults, setShowResults] = useState(false);
-  const theme = useTheme();
   const { isFocused } = useFocus({ id });
 
   const query = controlledValue ?? internalValue;
@@ -75,81 +73,65 @@ export const SearchInput = <T = string>({
       .slice(0, maxResults);
   }, [options, query, maxResults, getItemValue]);
 
-  useInput((input, key) => {
-    if (!isFocused) {
-      return;
-    }
-
-    if (key.escape) {
-      setQuery("");
-      setShowResults(false);
-      setSelectedIndex(0);
-      return;
-    }
-
-    if (key.upArrow) {
-      if (showResults && filteredResults.length > 0) {
-        setSelectedIndex((i) => Math.max(0, i - 1));
+  useInput(
+    (input, key) => {
+      if (!isFocused) {
+        return;
       }
-      return;
-    }
 
-    if (key.downArrow) {
-      if (filteredResults.length > 0) {
-        setShowResults(true);
-        setSelectedIndex((i) => Math.min(filteredResults.length - 1, i + 1));
-      }
-      return;
-    }
-
-    if (key.return) {
-      if (showResults && filteredResults.length > 0) {
-        const result = filteredResults[selectedIndex];
-        if (!result) return;
-        onSelect?.(result);
-        setQuery(getItemValue(result));
+      if (key.escape) {
+        setQuery("");
         setShowResults(false);
         setSelectedIndex(0);
+        return;
       }
-      return;
-    }
 
-    if (key.backspace || key.delete) {
-      const newQuery = query.slice(0, -1);
-      setQuery(newQuery);
-      setSelectedIndex(0);
-      if (newQuery.length === 0) {
-        setShowResults(false);
+      if (key.return) {
+        if (showResults && filteredResults.length > 0) {
+          const item = filteredResults[selectedIndex];
+          if (item !== undefined) onSelect?.(item);
+          setShowResults(false);
+          setSelectedIndex(0);
+        }
+        return;
       }
-      return;
-    }
 
-    if (key.tab) {
-      return;
-    }
+      if (key.upArrow && showResults) {
+        setSelectedIndex((i) => Math.max(0, i - 1));
+        return;
+      }
 
-    if (input && input.length > 0) {
-      const newQuery = query + input;
-      setQuery(newQuery);
-      setSelectedIndex(0);
-      if (options && options.length > 0) {
+      if (key.downArrow && showResults) {
+        setSelectedIndex((i) => Math.min(filteredResults.length - 1, i + 1));
+        return;
+      }
+
+      if (key.backspace || key.delete) {
+        setQuery(query.slice(0, -1));
         setShowResults(true);
+        setSelectedIndex(0);
+        return;
       }
-    }
-  });
 
-  const borderColor = isFocused ? theme.colors.focusRing : theme.colors.border;
+      if (input && input.length === 1 && input.charCodeAt(0) >= 32) {
+        setQuery(query + input);
+        setShowResults(true);
+        setSelectedIndex(0);
+      }
+    },
+    { isActive: isFocused },
+  );
+
+  const borderColor = isFocused ? "cyan" : "gray";
   const hasResults = showResults && filteredResults.length > 0;
 
   return (
     <Box flexDirection="column">
       {label && <Text bold>{label}</Text>}
       <Box borderStyle={borderStyle} borderColor={borderColor} paddingX={paddingX}>
-        <Text color={theme.colors.mutedForeground}>{searchIcon}</Text>
-        <Text color={query ? theme.colors.foreground : theme.colors.mutedForeground}>
-          {query || placeholder}
-        </Text>
-        {isFocused && <Text color={theme.colors.focusRing}>{cursor}</Text>}
+        <Text dimColor>{searchIcon}</Text>
+        {query ? <Text>{query}</Text> : <Text dimColor>{placeholder}</Text>}
+        {isFocused && <Text color="cyan">{cursor}</Text>}
       </Box>
       {hasResults && (
         <Box flexDirection="column" paddingLeft={2}>
@@ -157,12 +139,10 @@ export const SearchInput = <T = string>({
             const isSelected = idx === selectedIndex;
             return (
               <Box key={getItemValue(item)} flexDirection="row">
-                <Text color={isSelected ? theme.colors.focusRing : theme.colors.mutedForeground}>
-                  {isSelected ? resultCursor : "".repeat(resultCursor.length)}
+                <Text color={isSelected ? "cyan" : "gray"}>
+                  {isSelected ? resultCursor : " ".repeat(resultCursor.length)}
                 </Text>
-                <Text color={isSelected ? theme.colors.foreground : theme.colors.mutedForeground}>
-                  {getItemValue(item)}
-                </Text>
+                <Text dimColor={!isSelected}>{getItemValue(item)}</Text>
               </Box>
             );
           })}

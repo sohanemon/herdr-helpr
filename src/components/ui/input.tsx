@@ -1,5 +1,4 @@
 import { Box, Text, useInput } from "ink";
-import { useTheme } from "./theme-provider";
 
 export interface InputProps {
   value: string;
@@ -18,8 +17,6 @@ export function Input({
   label,
   placeholder = "",
 }: InputProps) {
-  const theme = useTheme();
-
   useInput((input, key) => {
     if (key.escape) {
       onCancel();
@@ -42,19 +39,13 @@ export function Input({
     <Box flexDirection="column">
       {label && (
         <Box marginBottom={1}>
-          <Text bold color={theme.colors.foreground}>
-            {label}
-          </Text>
+          <Text bold>{label}</Text>
         </Box>
       )}
-      <Box borderStyle="round" borderColor={theme.colors.border} paddingX={1}>
-        <Text color={theme.colors.primary}>❯ </Text>
-        {value.length > 0 ? (
-          <Text color={theme.colors.foreground}>{value}</Text>
-        ) : (
-          <Text color={theme.colors.mutedForeground}>{placeholder}</Text>
-        )}
-        <Text color={theme.colors.focusRing}>█</Text>
+      <Box borderStyle="round" borderColor="gray" paddingX={1}>
+        <Text color="cyan">❯ </Text>
+        {value.length > 0 ? <Text>{value}</Text> : <Text dimColor>{placeholder}</Text>}
+        <Text color="cyan">█</Text>
       </Box>
     </Box>
   );

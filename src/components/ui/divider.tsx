@@ -1,5 +1,4 @@
 import { Box, Text } from "ink";
-import { useTheme } from "./theme-provider";
 
 export interface DividerProps {
   variant?: "single" | "double" | "bold";
@@ -15,9 +14,9 @@ export interface DividerProps {
 }
 
 const DIVIDER_CHARS: Record<NonNullable<DividerProps["variant"]>, string> = {
-  bold: "┃",
-  double: "║",
-  single: "│",
+  bold: "\u2503",
+  double: "\u2551",
+  single: "\u2502",
 };
 
 export const Divider = ({
@@ -32,8 +31,7 @@ export const Divider = ({
   height = 1,
   width = "auto",
 }: DividerProps) => {
-  const theme = useTheme();
-  const resolvedColor = color ?? theme.colors.border;
+  const resolvedColor = color ?? "gray";
   const vChar = dividerChar ?? DIVIDER_CHARS[variant];
 
   if (orientation === "vertical") {
@@ -49,8 +47,8 @@ export const Divider = ({
     );
   }
 
-  const paddingStr = "".repeat(padding);
-  const titlePad = "".repeat(titlePadding);
+  const paddingStr = " ".repeat(padding);
+  const titlePad = " ".repeat(titlePadding);
 
   if (label) {
     const resolvedLabelColor = labelColor ?? resolvedColor;

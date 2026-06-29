@@ -2,7 +2,6 @@ import type { SpinnerName } from "cli-spinners";
 import cliSpinners from "cli-spinners";
 import { Text } from "ink";
 import { useAnimation } from "@/hooks/use-animation";
-import { useTheme } from "./theme-provider";
 
 export type SpinnerType = SpinnerName;
 
@@ -23,13 +22,12 @@ export const Spinner = ({
   fps = 12,
   frames: customFrames,
 }: SpinnerProps) => {
-  const theme = useTheme();
   const builtin = cliSpinners[spinnerType] ?? cliSpinners.dots;
   const useCustomFrames = customFrames !== undefined;
   const frames = useCustomFrames ? customFrames : builtin.frames;
   const frame = useAnimation(useCustomFrames ? fps : { intervalMs: builtin.interval });
   const icon = frames[frame % frames.length];
-  const resolvedColor = color ?? theme.colors.primary;
+  const resolvedColor = color ?? "cyan";
 
   return (
     <Text>

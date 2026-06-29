@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Panel } from "@/components/ui/panel";
 import { TaskError, TaskSuccess } from "@/components/ui/task-result";
 import { TaskRunning } from "@/components/ui/task-running";
-import { useTheme } from "@/components/ui/theme-provider";
 import { herdrJson, herdrRun } from "@/lib/herdr";
 import { renderPrompt } from "@/lib/render";
 import { formatError } from "@/lib/utils";
@@ -18,7 +17,6 @@ export function RenameWorkspacePrompt() {
   const [currentLabel, setCurrentLabel] = useState("");
   const [wsId, setWsId] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
-  const theme = useTheme();
 
   useEffect(() => {
     (async () => {
@@ -64,10 +62,8 @@ export function RenameWorkspacePrompt() {
       {phase === "input" && (
         <Box flexDirection="column">
           <Box marginBottom={1}>
-            <Text color={theme.colors.mutedForeground}>Current: </Text>
-            <Text bold color={theme.colors.foreground}>
-              {currentLabel}
-            </Text>
+            <Text dimColor>Current: </Text>
+            <Text bold>{currentLabel}</Text>
           </Box>
           <Input
             label="New name"
@@ -83,7 +79,7 @@ export function RenameWorkspacePrompt() {
         <Box flexDirection="column">
           <TaskRunning label="Renaming workspace..." />
           <Box marginTop={1}>
-            <Text color={theme.colors.mutedForeground}>New name: </Text>
+            <Text dimColor>New name: </Text>
             <Text>{name.trim()}</Text>
           </Box>
         </Box>

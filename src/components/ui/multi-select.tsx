@@ -1,7 +1,5 @@
 import { Box, Text, useInput } from "ink";
-
 import { useState } from "react";
-import { useTheme } from "./theme-provider";
 
 export interface MultiSelectOption<T = string> {
   value: T;
@@ -29,10 +27,8 @@ export const MultiSelect = <T = string>({
   checkmark = "◉",
   height,
 }: MultiSelectProps<T>) => {
-  const theme = useTheme();
   const [activeIndex, setActiveIndex] = useState(0);
   const [internalSelected, setInternalSelected] = useState<T[]>([]);
-
   const selected = controlledValue ?? internalSelected;
 
   const scrollOffset = (() => {
@@ -53,7 +49,7 @@ export const MultiSelect = <T = string>({
 
   const visibleOptions = height ? options.slice(scrollOffset, scrollOffset + height) : options;
 
-  useInput((input, key) => {
+  useInput((_input, key) => {
     if (key.upArrow) {
       setActiveIndex((i) => {
         let next = i - 1;
@@ -70,64 +66,50 @@ export const MultiSelect = <T = string>({
         }
         return next >= options.length ? i : next;
       });
-    } else if (input === "") {
+    } else if (key.return) {
       const opt = options[activeIndex];
-      if (!opt || opt.disabled) {
-        return;
-      }
+      if (!opt || opt.disabled) return;
+
       const isSelected = selected.includes(opt.value);
       const next = isSelected ? selected.filter((v) => v !== opt.value) : [...selected, opt.value];
-      if (controlledValue === undefined) {
-        setInternalSelected(next);
-      }
+      setInternalSelected(next);
       onChange?.(next);
-    } else if (key.return) {
-      onSubmit?.(selected);
+      if (!isSelected) {
+        onSubmit?.(next);
+      }
     }
   });
 
   return (
-    <Box flexDirection="column">
-      {visibleOptions.map((opt, visibleIdx) => {
-        const idx = scrollOffset + visibleIdx;
-        const isActive = idx === activeIndex;
+    <Box flexDirection="column" width={80}>
+      {visibleOptions.map((opt, idx) => {
+        const realIdx = height ? idx + scrollOffset : idx;
+        const isActive = realIdx === activeIndex;
         const isSelected = selected.includes(opt.value);
-        const icon = isSelected ? checkmark : "○";
 
-        let iconColor: string;
+        let labelColor: string | undefined;
         if (opt.disabled) {
-          iconColor = theme.colors.mutedForeground;
-        } else if (isSelected) {
-          iconColor = theme.colors.primary;
-        } else {
-          iconColor = theme.colors.foreground;
-        }
-
-        let labelColor: string;
-        if (opt.disabled) {
-          labelColor = theme.colors.mutedForeground;
+          labelColor = undefined;
         } else if (isActive) {
-          labelColor = theme.colors.primary;
+          labelColor = "cyan";
         } else {
-          labelColor = theme.colors.foreground;
+          labelColor = undefined;
         }
 
         return (
-          <Box key={idx} gap={1}>
-            <Text color={isActive ? theme.colors.primary : undefined}>
-              {isActive ? cursor : ""}
+          <Box key={opt.value as unknown as string} gap={1}>
+            <Text>
+              {isActive ? (
+                <Text color="cyan">{cursor}</Text>
+              ) : (
+                <Text>{" ".repeat(cursor.length)}</Text>
+              )}
             </Text>
-            <Text color={iconColor} dimColor={opt.disabled}>
-              {icon}
-            </Text>
-            <Text color={labelColor} bold={isActive} dimColor={opt.disabled}>
+            <Text color={isSelected ? "cyan" : "gray"}>{checkmark}</Text>
+            <Text color={labelColor} bold={isSelected} dimColor={opt.disabled}>
               {opt.label}
             </Text>
-            {opt.hint && (
-              <Text color={theme.colors.mutedForeground} dimColor>
-                {opt.hint}
-              </Text>
-            )}
+            {opt.hint && <Text dimColor>{opt.hint}</Text>}
           </Box>
         );
       })}

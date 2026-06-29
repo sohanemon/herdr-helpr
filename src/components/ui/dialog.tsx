@@ -1,7 +1,6 @@
 import { Box, Text, useInput } from "ink";
 import type { ReactNode } from "react";
 import { useState } from "react";
-import { useTheme } from "./theme-provider";
 
 export interface DialogProps {
   title?: string;
@@ -24,7 +23,6 @@ export const Dialog = ({
   variant = "default",
   isOpen = false,
 }: DialogProps) => {
-  const theme = useTheme();
   const [focusedButton, setFocusedButton] = useState<0 | 1>(0);
 
   useInput(
@@ -51,22 +49,19 @@ export const Dialog = ({
     return null;
   }
 
-  const confirmColor = variant === "danger" ? (theme.colors.error ?? "red") : theme.colors.primary;
+  const accentColor = variant === "danger" ? "red" : "cyan";
 
   return (
     <Box
       flexDirection="column"
       borderStyle="round"
-      borderColor={variant === "danger" ? (theme.colors.error ?? "red") : theme.colors.primary}
+      borderColor={accentColor}
       paddingX={1}
       paddingY={0}
     >
       {title && (
         <Box marginBottom={1}>
-          <Text
-            bold
-            color={variant === "danger" ? (theme.colors.error ?? "red") : theme.colors.primary}
-          >
+          <Text bold color={accentColor}>
             {title}
           </Text>
         </Box>
@@ -76,18 +71,20 @@ export const Dialog = ({
       </Box>
       <Box flexDirection="row" gap={2} justifyContent="flex-end" marginTop={1}>
         <Text
-          color={focusedButton === 0 ? theme.colors.foreground : theme.colors.mutedForeground}
+          color={focusedButton === 0 ? undefined : undefined}
           bold={focusedButton === 0}
           inverse={focusedButton === 0}
+          dimColor={focusedButton !== 0}
         >
           {""}
           {cancelLabel}
           {""}
         </Text>
         <Text
-          color={focusedButton === 1 ? confirmColor : theme.colors.mutedForeground}
+          color={focusedButton === 1 ? accentColor : undefined}
           bold={focusedButton === 1}
           inverse={focusedButton === 1}
+          dimColor={focusedButton !== 1}
         >
           {""}
           {confirmLabel}

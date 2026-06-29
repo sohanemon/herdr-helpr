@@ -1,6 +1,5 @@
 import { Box, Text, useInput } from "ink";
 import { useState } from "react";
-import { useTheme } from "./theme-provider";
 
 export interface SelectOption<T = string> {
   value: T;
@@ -28,10 +27,9 @@ export const Select = <T = string>({
   cursor = "›",
   cursorColor,
 }: SelectProps<T>) => {
-  const theme = useTheme();
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const resolvedCursorColor = cursorColor ?? theme.colors.primary;
+  const resolvedCursorColor = cursorColor ?? "cyan";
 
   useInput((_input, key) => {
     if (key.upArrow) {
@@ -66,13 +64,13 @@ export const Select = <T = string>({
         const isActive = idx === activeIndex;
         const isSelected = controlledValue !== undefined && opt.value === controlledValue;
 
-        let optColor: string;
+        let optColor: string | undefined;
         if (opt.disabled) {
-          optColor = theme.colors.mutedForeground;
+          optColor = undefined; // will use dimColor
         } else if (isActive) {
           optColor = resolvedCursorColor;
         } else {
-          optColor = theme.colors.foreground;
+          optColor = undefined; // terminal default
         }
 
         return (
@@ -81,11 +79,7 @@ export const Select = <T = string>({
             <Text color={optColor} bold={isActive || isSelected} dimColor={opt.disabled}>
               {opt.label}
             </Text>
-            {opt.hint && (
-              <Text color={theme.colors.mutedForeground} dimColor>
-                {opt.hint}
-              </Text>
-            )}
+            {opt.hint && <Text dimColor>{opt.hint}</Text>}
           </Box>
         );
       })}

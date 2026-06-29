@@ -1,6 +1,5 @@
 import { Box, render, useStdout } from "ink";
 import type React from "react";
-import { ThemeProvider } from "@/components/ui/theme-provider";
 
 function FullCenter({ children }: { children: React.ReactNode }) {
   const { stdout } = useStdout();
@@ -17,10 +16,6 @@ function FullCenter({ children }: { children: React.ReactNode }) {
 }
 
 export async function renderPrompt(element: React.ReactNode) {
-  const { waitUntilExit } = render(
-    <ThemeProvider>
-      <FullCenter>{element}</FullCenter>
-    </ThemeProvider>,
-  );
+  const { waitUntilExit } = render(<FullCenter>{element}</FullCenter>);
   await waitUntilExit();
 }

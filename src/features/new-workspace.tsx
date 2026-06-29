@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Panel } from "@/components/ui/panel";
 import { TaskError, TaskSuccess } from "@/components/ui/task-result";
 import { TaskRunning } from "@/components/ui/task-running";
-import { useTheme } from "@/components/ui/theme-provider";
 import { herdrRun } from "@/lib/herdr";
 import { renderPrompt } from "@/lib/render";
 import { formatError } from "@/lib/utils";
@@ -14,7 +13,6 @@ export function NewWorkspacePrompt() {
   const [name, setName] = useState("");
   const [phase, setPhase] = useState<"input" | "creating" | "done" | "error">("input");
   const [errorMsg, setErrorMsg] = useState("");
-  const theme = useTheme();
 
   const handleSubmit = async () => {
     setPhase("creating");
@@ -50,7 +48,7 @@ export function NewWorkspacePrompt() {
           <TaskRunning label="Creating workspace..." />
           {name.trim() && (
             <Box marginTop={1}>
-              <Text color={theme.colors.mutedForeground}>Name: </Text>
+              <Text dimColor>Name: </Text>
               <Text>{name.trim()}</Text>
             </Box>
           )}

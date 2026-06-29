@@ -1,6 +1,5 @@
 import { Box, Text, useInput } from "ink";
 import { useState } from "react";
-import { useTheme } from "./theme-provider";
 
 export interface ConfirmProps {
   message: string;
@@ -21,7 +20,6 @@ export const Confirm = ({
   defaultValue = false,
   variant = "default",
 }: ConfirmProps) => {
-  const theme = useTheme();
   const [selected, setSelected] = useState<boolean>(defaultValue);
 
   useInput((input, key) => {
@@ -40,12 +38,12 @@ export const Confirm = ({
     }
   });
 
-  const yesColor = variant === "danger" ? theme.colors.error : theme.colors.primary;
+  const yesColor = variant === "danger" ? "red" : "cyan";
 
   return (
     <Box flexDirection="column" gap={0}>
       <Text>
-        <Text color={theme.colors.primary}>{"?"}</Text>
+        <Text color="cyan">{"?"}</Text>
         {message}
       </Text>
       <Box gap={2} paddingLeft={2}>
@@ -56,7 +54,7 @@ export const Confirm = ({
               {confirmLabel}
             </Text>
           ) : (
-            <Text color={theme.colors.mutedForeground}>
+            <Text dimColor>
               {""}
               {confirmLabel}
             </Text>
@@ -64,7 +62,7 @@ export const Confirm = ({
         </Box>
         <Box gap={1}>
           {selected ? (
-            <Text color={theme.colors.mutedForeground}>
+            <Text dimColor>
               {""}
               {cancelLabel}
             </Text>

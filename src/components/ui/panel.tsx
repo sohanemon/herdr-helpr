@@ -1,6 +1,5 @@
 import { Box, Text } from "ink";
 import type { ReactNode } from "react";
-import { useTheme } from "./theme-provider";
 
 export interface PanelProps {
   title: string;
@@ -8,26 +7,19 @@ export interface PanelProps {
 }
 
 export function Panel({ title, children }: PanelProps) {
-  const theme = useTheme();
   return (
     <Box flexDirection="column" alignItems="center" paddingTop={1}>
-      <Box
-        flexDirection="column"
-        borderStyle="round"
-        borderColor={theme.colors.primary}
-        paddingX={2}
-        paddingY={1}
-      >
-        <Text bold color={theme.colors.primary}>
+      <Box flexDirection="column" borderStyle="round" borderColor="cyan" paddingX={2} paddingY={1}>
+        <Text bold color="cyan">
           {title}
         </Text>
         <Box marginY={1}>
-          <Text color={theme.colors.border}>{"\u2500".repeat(40)}</Text>
+          <Text color="gray">{"\u2500".repeat(40)}</Text>
         </Box>
         {children}
       </Box>
       <Box marginTop={1}>
-        <Text color={theme.colors.mutedForeground}>↵ confirm · esc cancel</Text>
+        <Text dimColor>↵ confirm · esc cancel</Text>
       </Box>
     </Box>
   );
