@@ -1,6 +1,6 @@
-import { Box, Text } from "ink";
-import { useTheme } from "src/components/ui/theme-provider";
-import { useInput } from "src/hooks/use-input";
+import { Box, Text, useInput } from "ink";
+import { useTheme } from "./theme-provider";
+
 
 export interface InputProps {
   value: string;

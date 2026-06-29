@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Box, Text } from "ink";
-import { useTheme } from "src/components/ui/theme-provider";
-import { Panel } from "src/components/ui/panel";
-import { Spinner } from "src/components/ui/spinner";
+import { Panel } from "@/components/ui/panel";
+import { useTheme } from "@/components/ui/theme-provider";
+import { Spinner } from "@/components/ui/spinner";
 
 const HERDR = process.env.HERDR_BIN_PATH || "herdr";
 
@@ -40,8 +40,9 @@ export function CloseOtherTabsPrompt() {
         for (const tab of list.result.tabs) {
           if (tab.tab_id === focused) continue;
           const wsKey = tab.tab_id.split(":")[0];
-          if (wsCount[wsKey] <= 1) continue;
-          wsCount[wsKey]--;
+          if ((wsCount[wsKey] ?? 0) <= 1) continue;
+          // @ts-expect-error could be undefined;
+          (wsCount?.[wsKey])--;
           await herdrRun("tab", "close", tab.tab_id);
           closed++;
         }

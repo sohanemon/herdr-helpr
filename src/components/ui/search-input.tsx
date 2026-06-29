@@ -1,9 +1,6 @@
-import { Box, Text } from "ink";
-import React, { useState, useMemo, useCallback } from "react";
-
-import { useTheme } from "src/components/ui/theme-provider";
-import { useFocus } from "src/hooks/use-focus";
-import { useInput } from "src/hooks/use-input";
+import { Box, Text, useFocus, useInput } from "ink";
+import { useState, useMemo, useCallback } from "react";
+import { useTheme } from "./theme-provider";
 
 export interface SearchInputProps<T = string> {
   options?: T[];
@@ -16,13 +13,13 @@ export interface SearchInputProps<T = string> {
   maxResults?: number;
   id?: string;
   borderStyle?:
-    | "single"
-    | "double"
-    | "round"
-    | "bold"
-    | "singleDouble"
-    | "doubleSingle"
-    | "classic";
+  | "single"
+  | "double"
+  | "round"
+  | "bold"
+  | "singleDouble"
+  | "doubleSingle"
+  | "classic";
   paddingX?: number;
   cursor?: string;
   searchIcon?: string;

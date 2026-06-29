@@ -1,8 +1,7 @@
-import { Box, Text } from "ink";
-import React, { useState } from "react";
+import { Box, Text, useInput } from "ink";
 
-import { useTheme } from "src/components/ui/theme-provider";
-import { useInput } from "src/hooks/use-input";
+import { useState } from "react";
+import { useTheme } from "./theme-provider";
 
 export interface MultiSelectOption<T = string> {
   value: T;

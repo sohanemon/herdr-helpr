@@ -1,6 +1,5 @@
 import { Box, Text } from "ink";
-
-import { useTheme } from "src/components/ui/theme-provider";
+import { useTheme } from "./theme-provider";
 
 export interface DividerProps {
   variant?: "single" | "double" | "bold";

@@ -1,9 +1,8 @@
+import { useAnimation } from "@/hooks/use-animation";
 import cliSpinners from "cli-spinners";
 import type { SpinnerName } from "cli-spinners";
 import { Text } from "ink";
-
-import { useTheme } from "src/components/ui/theme-provider";
-import { useAnimation } from "src/hooks/use-animation";
+import { useTheme } from "./theme-provider";
 
 export type SpinnerType = SpinnerName;
 

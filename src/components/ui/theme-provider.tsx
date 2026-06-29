@@ -1,6 +1,6 @@
+import { defaultTheme } from "@/lib/terminal-themes/default";
 import * as React from "react";
 
-import { defaultTheme } from "src/lib/terminal-themes/default";
 
 type BorderStyle =
   | "single"
@@ -83,9 +83,6 @@ export const isReducedMotion = (): boolean =>
   getEnv("NO_MOTION") === "1" || getEnv("CI") === "true";
 
 const detectUnicodeSupport = (): boolean => {
-  if (typeof window !== "undefined") {
-    return true;
-  }
 
   if (getEnv("NO_UNICODE") === "1" || getEnv("NO_UNICODE") === "true") {
     return false;

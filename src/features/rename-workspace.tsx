@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Box, Text } from "ink";
-import { useTheme } from "src/components/ui/theme-provider";
-import { Panel } from "src/components/ui/panel";
-import { Input } from "src/components/ui/input";
-import { Spinner } from "src/components/ui/spinner";
+import { Input } from "@/components/ui/input";
+import { Panel } from "@/components/ui/panel";
+import { useTheme } from "@/components/ui/theme-provider";
+import { Spinner } from "@/components/ui/spinner";
 
 const HERDR = process.env.HERDR_BIN_PATH || "herdr";
 
