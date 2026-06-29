@@ -1,7 +1,6 @@
 import { Box, Text, useInput } from "ink";
-
-import { useState } from "react";
 import type { ReactNode } from "react";
+import { useState } from "react";
 import { useTheme } from "./theme-provider";
 
 export interface DialogProps {

@@ -1,6 +1,5 @@
-import type { ReactNode } from "react";
-
 import { Box, Text } from "ink";
+import type { ReactNode } from "react";
 import { useTheme } from "./theme-provider";
 
 export interface PanelProps {

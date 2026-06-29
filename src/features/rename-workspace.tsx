@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
 import { Box, Text } from "ink";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Panel } from "@/components/ui/panel";
-import { useTheme } from "@/components/ui/theme-provider";
 import { Spinner } from "@/components/ui/spinner";
+import { useTheme } from "@/components/ui/theme-provider";
 import { herdrJson, herdrRun } from "@/lib/herdr";
 import { formatError } from "@/lib/utils";
 

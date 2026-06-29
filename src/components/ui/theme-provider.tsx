@@ -1,5 +1,5 @@
-import { defaultTheme } from "@/lib/terminal-themes/default";
 import * as React from "react";
+import { defaultTheme } from "@/lib/terminal-themes/default";
 
 export type BorderStyle =
   | "single"

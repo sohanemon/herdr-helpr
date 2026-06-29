@@ -1,7 +1,7 @@
 import { Box, Text, useFocus, useInput } from "ink";
-import { useState, useMemo, useCallback } from "react";
-import { useTheme } from "./theme-provider";
+import { useCallback, useMemo, useState } from "react";
 import type { BorderStyle } from "./theme-provider";
+import { useTheme } from "./theme-provider";
 
 export interface SearchInputProps<T = string> {
   options?: T[];
