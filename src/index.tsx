@@ -11,7 +11,7 @@
  *   close-other-panes          Close all panes except focused
  */
 import React, { useState, useEffect } from "react";
-import { render, Box, Text } from "ink";
+import { render, Box, Text, useStdout } from "ink";
 import { Panel, Input } from "./components.js";
 
 const HERDR = process.env.HERDR_BIN_PATH || "herdr";
@@ -333,6 +333,24 @@ function CloseOtherPanesPrompt() {
   );
 }
 
+// ── Vertical Center Layout ─────────────────────────
+
+function CenterLayout({ children }: { children: React.ReactNode }) {
+  const { stdout } = useStdout();
+  const rows = stdout?.rows ?? 24;
+
+  return (
+    <Box
+      flexDirection="column"
+      minHeight={rows}
+      justifyContent="center"
+      alignItems="center"
+    >
+      {children}
+    </Box>
+  );
+}
+
 // ── Main ─────────────────────────────────────────────
 
 const cmd = process.argv[2] || "help";
@@ -360,8 +378,16 @@ function Main() {
   }
 }
 
+function App() {
+  return (
+    <CenterLayout>
+      <Main />
+    </CenterLayout>
+  );
+}
+
 // Wrap in async to handle Ink's render lifecycle
 (async () => {
-  const { waitUntilExit } = render(<Main />);
+  const { waitUntilExit } = render(<App />);
   await waitUntilExit;
 })();
