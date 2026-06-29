@@ -5,14 +5,14 @@ id = "herdr-helpr"
 name = "Herdr Helpr"
 version = "0.1.0"
 min_herdr_version = "0.7.0"
-description = "A swiss-army knife of herdr: create named workspaces, close other tabs/panes, rename workspaces interactively, and more."
+description = "A swiss-army knife of herdr helpers: create/rename workspaces and tabs, switch workspaces, close other tabs/panes, toggle zoom, and more."
 platforms = ["linux", "macos"]
 
 # Build: install npm dependencies
 [[build]]
 command = ["bun", "install"]
 
-# ── Actions (background — open overlay pane) ─────────
+# ── Actions (background — open overlay pane or run directly) ─
 
 [[actions]]
 id = "workspace:create"
@@ -25,6 +25,21 @@ title = "Rename Workspace"
 command = ["bun", "run", "src/actions.ts", "workspace:rename"]
 
 [[actions]]
+id = "workspace:switch"
+title = "Switch Workspace"
+command = ["bun", "run", "src/actions.ts", "workspace:switch"]
+
+[[actions]]
+id = "tab:create"
+title = "New Tab"
+command = ["bun", "run", "src/actions.ts", "tab:create"]
+
+[[actions]]
+id = "tab:rename"
+title = "Rename Tab"
+command = ["bun", "run", "src/actions.ts", "tab:rename"]
+
+[[actions]]
 id = "tab:close-other"
 title = "Close Other Tabs"
 command = ["bun", "run", "src/actions.ts", "tab:close-other"]
@@ -33,6 +48,11 @@ command = ["bun", "run", "src/actions.ts", "tab:close-other"]
 id = "pane:close-other"
 title = "Close Other Panes"
 command = ["bun", "run", "src/actions.ts", "pane:close-other"]
+
+[[actions]]
+id = "pane:zoom-toggle"
+title = "Toggle Zoom"
+command = ["bun", "run", "src/actions.ts", "pane:zoom-toggle"]
 
 # ── Panes (interactive Ink TUI overlays) ──────────────
 
@@ -49,6 +69,24 @@ placement = "overlay"
 command = ["bun", "run", "src/features/rename-workspace.tsx"]
 
 [[panes]]
+id = "workspace:switch"
+title = "Switch Workspace"
+placement = "overlay"
+command = ["bun", "run", "src/features/workspace-switch.tsx"]
+
+[[panes]]
+id = "tab:create"
+title = "New Tab"
+placement = "overlay"
+command = ["bun", "run", "src/features/new-tab.tsx"]
+
+[[panes]]
+id = "tab:rename"
+title = "Rename Tab"
+placement = "overlay"
+command = ["bun", "run", "src/features/rename-tab.tsx"]
+
+[[panes]]
 id = "tab:close-other"
 title = "Close Other Tabs"
 placement = "overlay"
@@ -59,4 +97,3 @@ id = "pane:close-other"
 title = "Close Other Panes"
 placement = "overlay"
 command = ["bun", "run", "src/features/close-other-panes.tsx"]
-

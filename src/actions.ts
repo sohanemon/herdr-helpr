@@ -7,4 +7,16 @@ if (!id) {
   process.exit(1);
 }
 
+// INFO: Direct commands — no UI, run immediately
+const DIRECT_COMMANDS: Record<string, string[]> = {
+  "pane:zoom-toggle": ["pane", "zoom", "--toggle"],
+};
+
+const command = DIRECT_COMMANDS[id];
+if (command) {
+  await herdrRun(...command);
+  process.exit(0);
+}
+
+// INFO: Pane overlays — open the interactive TUI
 await herdrRun("plugin", "pane", "open", "--plugin", "herdr-helpr", "--entrypoint", id);
