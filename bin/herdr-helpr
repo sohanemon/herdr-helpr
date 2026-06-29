@@ -1,0 +1,104 @@
+#!/usr/bin/env bash
+# herdr-helpr — dispatcher for all plugin actions
+set -eu
+
+HERDR="${HERDR_BIN_PATH:-herdr}"
+
+cmd="${1:-help}"
+
+case "$cmd" in
+
+  # ── Actions (background) ─────────────────────────────
+
+  new-workspace)
+    # Open the interactive prompt pane
+    exec "$HERDR" plugin pane open \
+      --plugin "herdr-helpr" \
+      --entrypoint "prompt-new-workspace"
+    ;;
+
+  rename-workspace)
+    # Open the interactive rename pane
+    exec "$HERDR" plugin pane open \
+      --plugin "herdr-helpr" \
+      --entrypoint "prompt-rename-workspace"
+    ;;
+
+  close-other-tabs)
+    # Close every tab except the currently focused one
+    focused=$("$HERDR" tab list | jq -r '.result.tabs[] | select(.focused) | .tab_id')
+    "$HERDR" tab list | jq -r \
+      --arg current "$focused" \
+      '.result.tabs[] | select(.tab_id != $current) | .tab_id' \
+      | xargs -r -n1 "$HERDR" tab close
+    ;;
+
+  close-other-panes)
+    # Close every pane except the currently focused one
+    focused=$("$HERDR" pane list | jq -r '.result.panes[] | select(.focused) | .pane_id')
+    "$HERDR" pane list | jq -r \
+      --arg current "$focused" \
+      '.result.panes[] | select(.pane_id != $current) | .pane_id' \
+      | xargs -r -n1 "$HERDR" pane close
+    ;;
+
+  # ── Panes (interactive overlays) ──────────────────────
+
+  prompt-new-workspace)
+    echo ""
+    echo "  ┌─ New Workspace ─────────────────────────────┐"
+    echo "  │                                             │"
+    printf "  │  Enter name: "
+    read -r name
+    echo "  │                                             │"
+    echo "  └─────────────────────────────────────────────┘"
+    echo ""
+    if [ -n "$name" ]; then
+      "$HERDR" workspace create --label "$name" --focus
+    else
+      "$HERDR" workspace create --focus
+    fi
+    ;;
+
+  prompt-rename-workspace)
+    # Get current workspace info
+    ws_json=$("$HERDR" workspace list)
+    ws_id=$(echo "$ws_json" | jq -r '.result.workspaces[] | select(.focused) | .workspace_id')
+    current_label=$(echo "$ws_json" | jq -r '.result.workspaces[] | select(.focused) | .label')
+
+    echo ""
+    echo "  ┌─ Rename Workspace ──────────────────────────┐"
+    echo "  │                                             │"
+    printf "  │  Current: %s" "$current_label"
+    # Pad to align
+    printf "  │                                             │\n"
+    printf "  │  New name: "
+    read -r name
+    echo "  │                                             │"
+    echo "  └─────────────────────────────────────────────┘"
+    echo ""
+    if [ -n "$name" ]; then
+      "$HERDR" workspace rename "$ws_id" "$name"
+    fi
+    ;;
+
+  help|--help|-h)
+    echo "herdr-helpr — a collection of helpful herdr tools"
+    echo ""
+    echo "Actions:"
+    echo "  new-workspace       Create a workspace with a prompted name"
+    echo "  rename-workspace    Rename the current workspace"
+    echo "  close-other-tabs    Close all tabs except the focused one"
+    echo "  close-other-panes   Close all panes except the focused one"
+    echo ""
+    echo "Panes (interactive overlays):"
+    echo "  prompt-new-workspace     Interactive workspace creation"
+    echo "  prompt-rename-workspace  Interactive workspace rename"
+    ;;
+
+  *)
+    echo "unknown command: $cmd" >&2
+    exit 1
+    ;;
+
+esac

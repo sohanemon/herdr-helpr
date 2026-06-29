@@ -1,0 +1,47 @@
+#
+# herdr-helpr — a collection of helpful herdr tools
+#
+id = "herdr-helpr"
+name = "Herdr Helpr"
+version = "0.1.0"
+min_herdr_version = "0.7.0"
+description = "A swiss-army knife of herdr helpers: create named workspaces, close other tabs/panes, rename workspaces interactively, and more."
+platforms = ["linux", "macos"]
+
+# ── Actions ──────────────────────────────────────────────
+# These run in the background. Interactive ones open a pane.
+
+[[actions]]
+id = "new-workspace"
+title = "New Workspace (with name prompt)"
+command = ["./bin/herdr-helpr", "new-workspace"]
+
+[[actions]]
+id = "rename-workspace"
+title = "Rename Workspace (with name prompt)"
+command = ["./bin/herdr-helpr", "rename-workspace"]
+
+[[actions]]
+id = "close-other-tabs"
+title = "Close Other Tabs"
+command = ["./bin/herdr-helpr", "close-other-tabs"]
+
+[[actions]]
+id = "close-other-panes"
+title = "Close Other Panes"
+command = ["./bin/herdr-helpr", "close-other-panes"]
+
+# ── Panes ───────────────────────────────────────────────
+# Interactive overlays that prompt for input.
+
+[[panes]]
+id = "prompt-new-workspace"
+title = "New Workspace"
+placement = "overlay"
+command = ["./bin/herdr-helpr", "prompt-new-workspace"]
+
+[[panes]]
+id = "prompt-rename-workspace"
+title = "Rename Workspace"
+placement = "overlay"
+command = ["./bin/herdr-helpr", "prompt-rename-workspace"]
