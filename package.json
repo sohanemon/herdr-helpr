@@ -1,0 +1,16 @@
+{
+  "name": "herdr-helpr",
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "ink": "4",
+    "react": "18"
+  }
+}

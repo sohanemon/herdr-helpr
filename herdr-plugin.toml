@@ -8,40 +8,54 @@ min_herdr_version = "0.7.0"
 description = "A swiss-army knife of herdr helpers: create named workspaces, close other tabs/panes, rename workspaces interactively, and more."
 platforms = ["linux", "macos"]
 
-# ── Actions ──────────────────────────────────────────────
-# These run in the background. Interactive ones open a pane.
+# Build: install npm dependencies
+[[build]]
+command = ["bun", "install"]
+
+# ── Actions (background — open overlay pane) ─────────
 
 [[actions]]
 id = "new-workspace"
 title = "New Workspace (with name prompt)"
-command = ["./bin/herdr-helpr", "new-workspace"]
+command = ["bun", "run", "src/actions.ts", "new-workspace"]
 
 [[actions]]
 id = "rename-workspace"
 title = "Rename Workspace (with name prompt)"
-command = ["./bin/herdr-helpr", "rename-workspace"]
+command = ["bun", "run", "src/actions.ts", "rename-workspace"]
 
 [[actions]]
 id = "close-other-tabs"
 title = "Close Other Tabs"
-command = ["./bin/herdr-helpr", "close-other-tabs"]
+command = ["bun", "run", "src/actions.ts", "close-other-tabs"]
 
 [[actions]]
 id = "close-other-panes"
 title = "Close Other Panes"
-command = ["./bin/herdr-helpr", "close-other-panes"]
+command = ["bun", "run", "src/actions.ts", "close-other-panes"]
 
-# ── Panes ───────────────────────────────────────────────
-# Interactive overlays that prompt for input.
+# ── Panes (interactive Ink TUI overlays) ──────────────
 
 [[panes]]
 id = "prompt-new-workspace"
 title = "New Workspace"
 placement = "overlay"
-command = ["./bin/herdr-helpr", "prompt-new-workspace"]
+command = ["bun", "run", "src/index.tsx", "prompt-new-workspace"]
 
 [[panes]]
 id = "prompt-rename-workspace"
 title = "Rename Workspace"
 placement = "overlay"
-command = ["./bin/herdr-helpr", "prompt-rename-workspace"]
+command = ["bun", "run", "src/index.tsx", "prompt-rename-workspace"]
+
+[[panes]]
+id = "prompt-close-other-tabs"
+title = "Close Other Tabs"
+placement = "overlay"
+command = ["bun", "run", "src/index.tsx", "close-other-tabs"]
+
+[[panes]]
+id = "prompt-close-other-panes"
+title = "Close Other Panes"
+placement = "overlay"
+command = ["bun", "run", "src/index.tsx", "close-other-panes"]
