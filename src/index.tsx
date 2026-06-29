@@ -10,12 +10,12 @@
  */
 import React from "react";
 import { render, Box, Text, useStdout } from "ink";
-import { ThemeProvider } from "src/components/ui/theme-provider";
-import { Panel } from "src/components/ui/panel";
-import { NewWorkspacePrompt } from "src/features/new-workspace";
-import { RenameWorkspacePrompt } from "src/features/rename-workspace";
-import { CloseOtherTabsPrompt } from "src/features/close-other-tabs";
-import { CloseOtherPanesPrompt } from "src/features/close-other-panes";
+import { ThemeProvider } from "./components/ui/theme-provider";
+import { NewWorkspacePrompt } from "./features/new-workspace";
+import { RenameWorkspacePrompt } from "./features/rename-workspace";
+import { CloseOtherTabsPrompt } from "./features/close-other-tabs";
+import { CloseOtherPanesPrompt } from "./features/close-other-panes";
+import { Panel } from "./components/ui/panel";
 
 const cmd = process.argv[2] || "help";
 
@@ -68,5 +68,5 @@ function App() {
 
 (async () => {
   const { waitUntilExit } = render(<App />);
-  await waitUntilExit;
+  await waitUntilExit();
 })();
