@@ -1,6 +1,6 @@
 {
   "name": "herdr-helpr",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "module": "src/index.ts",
   "type": "module",
   "private": true,
@@ -13,6 +13,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "cli-spinners": "^3.4.0",
     "ink": "4",
     "mnemonist": "^0.40.4",
     "react": "18"
