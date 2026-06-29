@@ -52,10 +52,10 @@ command = ["bun", "run", "src/index.tsx", "prompt-rename-workspace"]
 id = "prompt-close-other-tabs"
 title = "Close Other Tabs"
 placement = "overlay"
-command = ["bun", "run", "src/index.tsx", "close-other-tabs"]
+command = ["bun", "run", "src/index.tsx", "prompt-close-other-tabs"]
 
 [[panes]]
 id = "prompt-close-other-panes"
 title = "Close Other Panes"
 placement = "overlay"
-command = ["bun", "run", "src/index.tsx", "close-other-panes"]
+command = ["bun", "run", "src/index.tsx", "prompt-close-other-panes"]

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "default",
+  "rsc": false,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "",
+    "baseColor": "neutral",
+    "cssVariables": false
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "src/components",
+    "utils": "src/lib/utils"
+  },
+  "registries": {
+    "@termcn": "https://termcn.vercel.app/r/{name}.json"
+  }
+}
