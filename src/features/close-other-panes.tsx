@@ -3,19 +3,8 @@ import { Box, Text } from "ink";
 import { Panel } from "@/components/ui/panel";
 import { useTheme } from "@/components/ui/theme-provider";
 import { Spinner } from "@/components/ui/spinner";
-
-const HERDR = process.env.HERDR_BIN_PATH || "herdr";
-
-async function herdr(...args: string[]) {
-  const proc = Bun.spawn([HERDR, ...args], { stdout: "pipe", stderr: "pipe" });
-  const out = await new Response(proc.stdout).text();
-  await proc.exited;
-  return JSON.parse(out);
-}
-
-async function herdrRun(...args: string[]) {
-  await Bun.spawn([HERDR, ...args], { stdout: "pipe", stderr: "pipe" });
-}
+import { herdrJson, herdrRun } from "@/lib/herdr";
+import { formatError } from "@/lib/utils";
 
 export function CloseOtherPanesPrompt() {
   const [phase, setPhase] = useState<"running" | "done" | "error">("running");
@@ -26,16 +15,19 @@ export function CloseOtherPanesPrompt() {
   useEffect(() => {
     (async () => {
       try {
-        const list = await herdr("pane", "list");
-        const focused = list?.result?.panes?.find((p: { pane_id: string; focused?: boolean }) => p.focused)?.pane_id;
-        if (!focused) {
-          setMsg("No focused pane");
+        const list = await herdrJson<{
+          result?: { panes?: { pane_id: string; focused?: boolean }[] };
+        }>("pane", "list");
+        const panes = list?.result?.panes;
+        const focused = panes?.find((p) => p.focused)?.pane_id;
+        if (!panes || !focused) {
+          if (!focused) setMsg("No focused pane");
           setPhase("done");
           return;
         }
 
         let closed = 0;
-        for (const pane of list.result.panes) {
+        for (const pane of panes) {
           if (pane.pane_id !== focused) {
             await herdrRun("pane", "close", pane.pane_id);
             closed++;
@@ -46,7 +38,7 @@ export function CloseOtherPanesPrompt() {
         setPhase("done");
         setTimeout(() => process.exit(0), 1200);
       } catch (e: unknown) {
-        setMsg(e instanceof Error ? e.message : String(e));
+        setMsg(formatError(e));
         setPhase("error");
       }
     })();

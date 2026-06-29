@@ -4,7 +4,8 @@
  *
  * Opens the appropriate overlay pane.
  */
-const HERDR = process.env.HERDR_BIN_PATH || "herdr";
+import { herdrRun } from "@/lib/herdr";
+
 const cmd = process.argv[2];
 
 switch (cmd) {
@@ -13,16 +14,7 @@ switch (cmd) {
   case "close-other-tabs":
   case "close-other-panes": {
     const paneId = `prompt-${cmd}`;
-    await Bun.spawn([
-      HERDR,
-      "plugin",
-      "pane",
-      "open",
-      "--plugin",
-      "herdr-helpr",
-      "--entrypoint",
-      paneId,
-    ]);
+    await herdrRun("plugin", "pane", "open", "--plugin", "herdr-helpr", "--entrypoint", paneId);
     break;
   }
   default:

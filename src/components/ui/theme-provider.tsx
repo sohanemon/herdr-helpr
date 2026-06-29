@@ -1,7 +1,7 @@
 import { defaultTheme } from "@/lib/terminal-themes/default";
 import * as React from "react";
 
-type BorderStyle =
+export type BorderStyle =
   | "single"
   | "double"
   | "round"

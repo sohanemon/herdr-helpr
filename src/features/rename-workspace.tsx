@@ -4,19 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Panel } from "@/components/ui/panel";
 import { useTheme } from "@/components/ui/theme-provider";
 import { Spinner } from "@/components/ui/spinner";
-
-const HERDR = process.env.HERDR_BIN_PATH || "herdr";
-
-async function herdr(...args: string[]) {
-  const proc = Bun.spawn([HERDR, ...args], { stdout: "pipe", stderr: "pipe" });
-  const out = await new Response(proc.stdout).text();
-  await proc.exited;
-  return JSON.parse(out);
-}
-
-async function herdrRun(...args: string[]) {
-  await Bun.spawn([HERDR, ...args], { stdout: "pipe", stderr: "pipe" });
-}
+import { herdrJson, herdrRun } from "@/lib/herdr";
+import { formatError } from "@/lib/utils";
 
 export function RenameWorkspacePrompt() {
   const [name, setName] = useState("");
@@ -31,8 +20,11 @@ export function RenameWorkspacePrompt() {
   useEffect(() => {
     (async () => {
       try {
-        const info = await herdr("workspace", "list");
-        const ws = info?.result?.workspaces?.find((w: { workspace_id: string; label: string; focused?: boolean }) => w.focused);
+        const info = await herdrJson<{
+          result?: { workspaces?: { workspace_id: string; label: string; focused?: boolean }[] };
+        }>("workspace", "list");
+        const workspaces = info?.result?.workspaces;
+        const ws = workspaces?.find((w) => w.focused);
         if (ws) {
           setCurrentLabel(ws.label);
           setWsId(ws.workspace_id);
@@ -42,7 +34,7 @@ export function RenameWorkspacePrompt() {
           setPhase("error");
         }
       } catch (e: unknown) {
-        setErrorMsg(e instanceof Error ? e.message : String(e));
+        setErrorMsg(formatError(e));
         setPhase("error");
       }
     })();
@@ -56,7 +48,7 @@ export function RenameWorkspacePrompt() {
       setPhase("done");
       setTimeout(() => process.exit(0), 800);
     } catch (e: unknown) {
-      setErrorMsg(e instanceof Error ? e.message : String(e));
+      setErrorMsg(formatError(e));
       setPhase("error");
     }
   };

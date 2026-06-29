@@ -4,12 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Panel } from "@/components/ui/panel";
 import { useTheme } from "@/components/ui/theme-provider";
 import { Spinner } from "@/components/ui/spinner";
-
-const HERDR = process.env.HERDR_BIN_PATH || "herdr";
-
-async function herdrRun(...args: string[]) {
-  await Bun.spawn([HERDR, ...args], { stdout: "pipe", stderr: "pipe" });
-}
+import { herdrRun } from "@/lib/herdr";
+import { formatError } from "@/lib/utils";
 
 export function NewWorkspacePrompt() {
   const [name, setName] = useState("");
@@ -27,7 +23,7 @@ export function NewWorkspacePrompt() {
       setPhase("done");
       setTimeout(() => process.exit(0), 800);
     } catch (e: unknown) {
-      setErrorMsg(e instanceof Error ? e.message : String(e));
+      setErrorMsg(formatError(e));
       setPhase("error");
     }
   };
