@@ -12,6 +12,6 @@
   "dependencies": {
     "ink": "4",
     "mnemonist": "^0.40.4",
-    "react": "18"
+    "react": "19"
   }
 }
