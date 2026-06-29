@@ -1,0 +1,65 @@
+name: Release
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Type-check
+        run: bun run --bun tsc --noEmit
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Create source archive
+        run: |
+          mkdir -p dist
+          git archive --format=tar --prefix=herdr-helpr-${{ steps.version.outputs.VERSION }}/ \
+            HEAD > dist/herdr-helpr-${{ steps.version.outputs.VERSION }}.tar
+          # Include bun.lock (git archive respects .gitignore but bun.lock is tracked)
+          tar -rf dist/herdr-helpr-${{ steps.version.outputs.VERSION }}.tar \
+            --transform="s|^|herdr-helpr-${{ steps.version.outputs.VERSION }}/|" \
+            bun.lock 2>/dev/null || true
+          gzip -f dist/herdr-helpr-${{ steps.version.outputs.VERSION }}.tar
+          ls -lh dist/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: herdr-helpr v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## herdr-helpr v${{ steps.version.outputs.VERSION }}
+
+            ### Install
+
+            **herdr:**
+            ```bash
+            herdr plugin install sohanemon/herdr-helpr
+            ```
+
+            **Manual:**
+            ```bash
+            curl -sL "https://github.com/sohanemon/herdr-helpr/releases/download/v${{ steps.version.outputs.VERSION }}/herdr-helpr-${{ steps.version.outputs.VERSION }}.tar.gz" \
+              | tar xz
+            cd herdr-helpr-${{ steps.version.outputs.VERSION }}
+            bun install
+            ```
+          files: dist/herdr-helpr-${{ steps.version.outputs.VERSION }}.tar.gz
