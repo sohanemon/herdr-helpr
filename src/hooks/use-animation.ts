@@ -40,12 +40,9 @@ const unsubscribe = (milliseconds: number, subscriber: Subscriber) => {
   }
 };
 
-export const useAnimation = (
-  rate: number | { intervalMs: number } = 12
-): number => {
+export const useAnimation = (rate: number | { intervalMs: number } = 12): number => {
   const [frame, setFrame] = React.useState(0);
-  const milliseconds =
-    typeof rate === "number" ? Math.round(1000 / rate) : rate.intervalMs;
+  const milliseconds = typeof rate === "number" ? Math.round(1000 / rate) : rate.intervalMs;
 
   React.useEffect(() => {
     const callback: Subscriber = (tick) => setFrame(tick);

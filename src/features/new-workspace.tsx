@@ -65,9 +65,7 @@ export function NewWorkspacePrompt() {
           ✓ {name.trim() ? `Workspace "${name.trim()}" created` : "Workspace created"}
         </Text>
       )}
-      {phase === "error" && (
-        <Text color={theme.colors.error}>✗ {errorMsg}</Text>
-      )}
+      {phase === "error" && <Text color={theme.colors.error}>✗ {errorMsg}</Text>}
     </Panel>
   );
 }

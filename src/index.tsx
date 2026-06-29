@@ -33,10 +33,10 @@ function Main() {
       return (
         <Panel title="herdr-helpr">
           <Text>Commands:</Text>
-          <Text>  prompt-new-workspace</Text>
-          <Text>  prompt-rename-workspace</Text>
-          <Text>  prompt-close-other-tabs</Text>
-          <Text>  prompt-close-other-panes</Text>
+          <Text> prompt-new-workspace</Text>
+          <Text> prompt-rename-workspace</Text>
+          <Text> prompt-close-other-tabs</Text>
+          <Text> prompt-close-other-panes</Text>
         </Panel>
       );
   }

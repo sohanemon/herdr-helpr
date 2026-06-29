@@ -14,9 +14,14 @@ switch (cmd) {
   case "close-other-panes": {
     const paneId = `prompt-${cmd}`;
     await Bun.spawn([
-      HERDR, "plugin", "pane", "open",
-      "--plugin", "herdr-helpr",
-      "--entrypoint", paneId,
+      HERDR,
+      "plugin",
+      "pane",
+      "open",
+      "--plugin",
+      "herdr-helpr",
+      "--entrypoint",
+      paneId,
     ]);
     break;
   }

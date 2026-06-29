@@ -1,7 +1,6 @@
 import { Box, Text, useInput } from "ink";
 import { useTheme } from "./theme-provider";
 
-
 export interface InputProps {
   value: string;
   onChange: (value: string) => void;
@@ -48,11 +47,7 @@ export function Input({
           </Text>
         </Box>
       )}
-      <Box
-        borderStyle="round"
-        borderColor={theme.colors.border}
-        paddingX={1}
-      >
+      <Box borderStyle="round" borderColor={theme.colors.border} paddingX={1}>
         <Text color={theme.colors.primary}>❯ </Text>
         {value.length > 0 ? (
           <Text color={theme.colors.foreground}>{value}</Text>

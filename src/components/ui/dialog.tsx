@@ -4,7 +4,6 @@ import { useState } from "react";
 import type { ReactNode } from "react";
 import { useTheme } from "./theme-provider";
 
-
 export interface DialogProps {
   title?: string;
   children: ReactNode;
@@ -46,25 +45,20 @@ export const Dialog = ({
         onCancel?.();
       }
     },
-    { isActive: isOpen }
+    { isActive: isOpen },
   );
 
   if (!isOpen) {
     return null;
   }
 
-  const confirmColor =
-    variant === "danger" ? (theme.colors.error ?? "red") : theme.colors.primary;
+  const confirmColor = variant === "danger" ? (theme.colors.error ?? "red") : theme.colors.primary;
 
   return (
     <Box
       flexDirection="column"
       borderStyle="round"
-      borderColor={
-        variant === "danger"
-          ? (theme.colors.error ?? "red")
-          : theme.colors.primary
-      }
+      borderColor={variant === "danger" ? (theme.colors.error ?? "red") : theme.colors.primary}
       paddingX={1}
       paddingY={0}
     >
@@ -72,11 +66,7 @@ export const Dialog = ({
         <Box marginBottom={1}>
           <Text
             bold
-            color={
-              variant === "danger"
-                ? (theme.colors.error ?? "red")
-                : theme.colors.primary
-            }
+            color={variant === "danger" ? (theme.colors.error ?? "red") : theme.colors.primary}
           >
             {title}
           </Text>
@@ -87,26 +77,22 @@ export const Dialog = ({
       </Box>
       <Box flexDirection="row" gap={2} justifyContent="flex-end" marginTop={1}>
         <Text
-          color={
-            focusedButton === 0
-              ? theme.colors.foreground
-              : theme.colors.mutedForeground
-          }
+          color={focusedButton === 0 ? theme.colors.foreground : theme.colors.mutedForeground}
           bold={focusedButton === 0}
           inverse={focusedButton === 0}
         >
           {""}
-          {cancelLabel}{""}
+          {cancelLabel}
+          {""}
         </Text>
         <Text
-          color={
-            focusedButton === 1 ? confirmColor : theme.colors.mutedForeground
-          }
+          color={focusedButton === 1 ? confirmColor : theme.colors.mutedForeground}
           bold={focusedButton === 1}
           inverse={focusedButton === 1}
         >
           {""}
-          {confirmLabel}{""}
+          {confirmLabel}
+          {""}
         </Text>
       </Box>
     </Box>

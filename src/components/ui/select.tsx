@@ -2,7 +2,6 @@ import { Box, Text, useInput } from "ink";
 import { useState } from "react";
 import { useTheme } from "./theme-provider";
 
-
 export interface SelectOption<T = string> {
   value: T;
   label: string;
@@ -20,7 +19,7 @@ export interface SelectProps<T = string> {
   cursorColor?: string;
 }
 
-export const Select = <T = string,>({
+export const Select = <T = string>({
   options,
   value: controlledValue,
   onChange,
@@ -65,8 +64,7 @@ export const Select = <T = string,>({
       {label && <Text bold>{label}</Text>}
       {options.map((opt, idx) => {
         const isActive = idx === activeIndex;
-        const isSelected =
-          controlledValue !== undefined && opt.value === controlledValue;
+        const isSelected = controlledValue !== undefined && opt.value === controlledValue;
 
         let optColor: string;
         if (opt.disabled) {
@@ -79,14 +77,8 @@ export const Select = <T = string,>({
 
         return (
           <Box key={idx} gap={1}>
-            <Text color={isActive ? resolvedCursorColor : undefined}>
-              {isActive ? cursor : ""}
-            </Text>
-            <Text
-              color={optColor}
-              bold={isActive || isSelected}
-              dimColor={opt.disabled}
-            >
+            <Text color={isActive ? resolvedCursorColor : undefined}>{isActive ? cursor : ""}</Text>
+            <Text color={optColor} bold={isActive || isSelected} dimColor={opt.disabled}>
               {opt.label}
             </Text>
             {opt.hint && (

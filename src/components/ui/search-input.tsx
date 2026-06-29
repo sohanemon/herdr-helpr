@@ -13,20 +13,20 @@ export interface SearchInputProps<T = string> {
   maxResults?: number;
   id?: string;
   borderStyle?:
-  | "single"
-  | "double"
-  | "round"
-  | "bold"
-  | "singleDouble"
-  | "doubleSingle"
-  | "classic";
+    | "single"
+    | "double"
+    | "round"
+    | "bold"
+    | "singleDouble"
+    | "doubleSingle"
+    | "classic";
   paddingX?: number;
   cursor?: string;
   searchIcon?: string;
   resultCursor?: string;
 }
 
-export const SearchInput = <T = string,>({
+export const SearchInput = <T = string>({
   options,
   getValue,
   value: controlledValue,
@@ -57,7 +57,7 @@ export const SearchInput = <T = string,>({
       }
       return String(item);
     },
-    [getValue]
+    [getValue],
   );
 
   const setQuery = (newQuery: string) => {
@@ -148,15 +148,9 @@ export const SearchInput = <T = string,>({
   return (
     <Box flexDirection="column">
       {label && <Text bold>{label}</Text>}
-      <Box
-        borderStyle={borderStyle}
-        borderColor={borderColor}
-        paddingX={paddingX}
-      >
+      <Box borderStyle={borderStyle} borderColor={borderColor} paddingX={paddingX}>
         <Text color={theme.colors.mutedForeground}>{searchIcon}</Text>
-        <Text
-          color={query ? theme.colors.foreground : theme.colors.mutedForeground}
-        >
+        <Text color={query ? theme.colors.foreground : theme.colors.mutedForeground}>
           {query || placeholder}
         </Text>
         {isFocused && <Text color={theme.colors.focusRing}>{cursor}</Text>}
@@ -167,22 +161,10 @@ export const SearchInput = <T = string,>({
             const isSelected = idx === selectedIndex;
             return (
               <Box key={idx} flexDirection="row">
-                <Text
-                  color={
-                    isSelected
-                      ? theme.colors.focusRing
-                      : theme.colors.mutedForeground
-                  }
-                >
+                <Text color={isSelected ? theme.colors.focusRing : theme.colors.mutedForeground}>
                   {isSelected ? resultCursor : "".repeat(resultCursor.length)}
                 </Text>
-                <Text
-                  color={
-                    isSelected
-                      ? theme.colors.foreground
-                      : theme.colors.mutedForeground
-                  }
-                >
+                <Text color={isSelected ? theme.colors.foreground : theme.colors.mutedForeground}>
                   {getItemValue(item)}
                 </Text>
               </Box>

@@ -20,7 +20,9 @@ async function herdrRun(...args: string[]) {
 
 export function RenameWorkspacePrompt() {
   const [name, setName] = useState("");
-  const [phase, setPhase] = useState<"loading" | "input" | "renaming" | "done" | "error">("loading");
+  const [phase, setPhase] = useState<"loading" | "input" | "renaming" | "done" | "error">(
+    "loading",
+  );
   const [currentLabel, setCurrentLabel] = useState("");
   const [wsId, setWsId] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -73,7 +75,9 @@ export function RenameWorkspacePrompt() {
         <Box flexDirection="column">
           <Box marginBottom={1}>
             <Text color={theme.colors.mutedForeground}>Current: </Text>
-            <Text bold color={theme.colors.foreground}>{currentLabel}</Text>
+            <Text bold color={theme.colors.foreground}>
+              {currentLabel}
+            </Text>
           </Box>
           <Input
             label="New name"
@@ -98,13 +102,9 @@ export function RenameWorkspacePrompt() {
         </Box>
       )}
       {phase === "done" && (
-        <Text color={theme.colors.success}>
-          ✓ Workspace renamed to "{name.trim()}"
-        </Text>
+        <Text color={theme.colors.success}>✓ Workspace renamed to "{name.trim()}"</Text>
       )}
-      {phase === "error" && (
-        <Text color={theme.colors.error}>✗ {errorMsg}</Text>
-      )}
+      {phase === "error" && <Text color={theme.colors.error}>✗ {errorMsg}</Text>}
     </Panel>
   );
 }

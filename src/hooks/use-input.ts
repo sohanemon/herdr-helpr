@@ -23,9 +23,6 @@ export interface Key {
 
 export type InputHandler = (input: string, key: Key) => void;
 
-export const useInput = (
-  handler: InputHandler,
-  options?: { isActive?: boolean }
-): void => {
+export const useInput = (handler: InputHandler, options?: { isActive?: boolean }): void => {
   inkUseInput(handler, options);
 };

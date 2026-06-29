@@ -27,9 +27,7 @@ export const Spinner = ({
   const builtin = cliSpinners[spinnerType] ?? cliSpinners.dots;
   const useCustomFrames = customFrames !== undefined;
   const frames = useCustomFrames ? customFrames : builtin.frames;
-  const frame = useAnimation(
-    useCustomFrames ? fps : { intervalMs: builtin.interval }
-  );
+  const frame = useAnimation(useCustomFrames ? fps : { intervalMs: builtin.interval });
   const icon = frames[frame % frames.length];
   const resolvedColor = color ?? theme.colors.primary;
 

@@ -7,10 +7,8 @@ export interface CenterProps {
 }
 
 export const Center = ({ children, axis = "both" }: CenterProps) => {
-  const justifyContent =
-    axis === "both" || axis === "horizontal" ? "center" : undefined;
-  const alignItems =
-    axis === "both" || axis === "vertical" ? "center" : undefined;
+  const justifyContent = axis === "both" || axis === "horizontal" ? "center" : undefined;
+  const alignItems = axis === "both" || axis === "vertical" ? "center" : undefined;
 
   return (
     <Box

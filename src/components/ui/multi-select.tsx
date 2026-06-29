@@ -20,7 +20,7 @@ export interface MultiSelectProps<T = string> {
   height?: number;
 }
 
-export const MultiSelect = <T = string,>({
+export const MultiSelect = <T = string>({
   options,
   value: controlledValue,
   onChange,
@@ -51,9 +51,7 @@ export const MultiSelect = <T = string,>({
     return offset;
   })();
 
-  const visibleOptions = height
-    ? options.slice(scrollOffset, scrollOffset + height)
-    : options;
+  const visibleOptions = height ? options.slice(scrollOffset, scrollOffset + height) : options;
 
   useInput((input, key) => {
     if (key.upArrow) {
@@ -78,9 +76,7 @@ export const MultiSelect = <T = string,>({
         return;
       }
       const isSelected = selected.includes(opt.value);
-      const next = isSelected
-        ? selected.filter((v) => v !== opt.value)
-        : [...selected, opt.value];
+      const next = isSelected ? selected.filter((v) => v !== opt.value) : [...selected, opt.value];
       if (controlledValue === undefined) {
         setInternalSelected(next);
       }

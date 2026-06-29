@@ -23,16 +23,12 @@ export function Panel({ title, children }: PanelProps) {
           {title}
         </Text>
         <Box marginY={1}>
-          <Text color={theme.colors.border}>
-            {"\u2500".repeat(40)}
-          </Text>
+          <Text color={theme.colors.border}>{"\u2500".repeat(40)}</Text>
         </Box>
         {children}
       </Box>
       <Box marginTop={1}>
-        <Text color={theme.colors.mutedForeground}>
-          ↵ confirm · esc cancel
-        </Text>
+        <Text color={theme.colors.mutedForeground}>↵ confirm · esc cancel</Text>
       </Box>
     </Box>
   );

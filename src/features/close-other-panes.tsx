@@ -28,7 +28,11 @@ export function CloseOtherPanesPrompt() {
       try {
         const list = await herdr("pane", "list");
         const focused = list?.result?.panes?.find((p: any) => p.focused)?.pane_id;
-        if (!focused) { setMsg("No focused pane"); setPhase("done"); return; }
+        if (!focused) {
+          setMsg("No focused pane");
+          setPhase("done");
+          return;
+        }
 
         let closed = 0;
         for (const pane of list.result.panes) {
@@ -61,9 +65,7 @@ export function CloseOtherPanesPrompt() {
           ✓ Closed {count} pane{count !== 1 ? "s" : ""}
         </Text>
       )}
-      {phase === "error" && (
-        <Text color={theme.colors.error}>✗ {msg}</Text>
-      )}
+      {phase === "error" && <Text color={theme.colors.error}>✗ {msg}</Text>}
     </Panel>
   );
 }

@@ -2,7 +2,6 @@ import { Box, Text, useInput } from "ink";
 import { useState } from "react";
 import { useTheme } from "./theme-provider";
 
-
 export interface ConfirmProps {
   message: string;
   onConfirm?: () => void;
@@ -41,8 +40,7 @@ export const Confirm = ({
     }
   });
 
-  const yesColor =
-    variant === "danger" ? theme.colors.error : theme.colors.primary;
+  const yesColor = variant === "danger" ? theme.colors.error : theme.colors.primary;
 
   return (
     <Box flexDirection="column" gap={0}>
