@@ -1,6 +1,5 @@
-#
-# herdr-helpr — a collection of helpful herdr tools
-#
+# WARNING: Auto-generated from src/tools.ts
+
 id = "herdr-helpr"
 name = "Herdr Helpr"
 version = "0.1.0"
@@ -8,11 +7,8 @@ min_herdr_version = "0.7.0"
 description = "A swiss-army knife of herdr helpers: create/rename workspaces and tabs, switch workspaces, close other tabs/panes, toggle zoom, and more."
 platforms = ["linux", "macos"]
 
-# Build: install npm dependencies
 [[build]]
 command = ["bun", "install"]
-
-# ── Actions (background — open overlay pane or run directly) ─
 
 [[actions]]
 id = "workspace:create"
@@ -53,8 +49,6 @@ command = ["bun", "run", "src/actions.ts", "pane:close-other"]
 id = "pane:zoom-toggle"
 title = "Toggle Zoom"
 command = ["bun", "run", "src/actions.ts", "pane:zoom-toggle"]
-
-# ── Panes (interactive Ink TUI overlays) ──────────────
 
 [[panes]]
 id = "workspace:create"

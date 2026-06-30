@@ -47,6 +47,7 @@ export function RenameTabPrompt() {
     try {
       await herdrRun("tab", "rename", tabId, name.trim());
       setPhase("done");
+      // NOTE: Brief pause to show success message before closing the overlay.
       setTimeout(() => process.exit(0), 800);
     } catch (e: unknown) {
       setErrorMsg(formatError(e));

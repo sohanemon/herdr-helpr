@@ -30,6 +30,8 @@ export function Input({
       onChange(value.slice(0, -1));
       return;
     }
+    // NOTE: Filter non-printable characters (control chars, escape sequences) at the
+    // input layer so downstream consumers don't need to sanitize.
     if (input && input.length === 1 && input.charCodeAt(0) >= 32) {
       onChange(value + input);
     }

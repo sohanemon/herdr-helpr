@@ -14,6 +14,8 @@ export interface UseAsyncTaskOptions {
 }
 
 export function useAsyncTask<T = string>(fn: () => Promise<T>, options: UseAsyncTaskOptions = {}) {
+  // NOTE: Store fn and options in refs to avoid stale closures when the hook
+  // intentionally runs the effect only once (empty deps array).
   const fnRef = useRef(fn);
   fnRef.current = fn;
   const optionsRef = useRef(options);

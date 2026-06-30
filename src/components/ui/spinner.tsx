@@ -1,11 +1,10 @@
-import type { SpinnerName } from "cli-spinners";
 import cliSpinners from "cli-spinners";
 import { Text } from "ink";
 import { useAnimation } from "@/hooks/use-animation";
 
-export type SpinnerType = SpinnerName;
+export type SpinnerType = string;
 
-export const spinnerNames = Object.keys(cliSpinners) as SpinnerName[];
+export const spinnerNames = Object.keys(cliSpinners);
 
 export interface SpinnerProps {
   type?: SpinnerType;
@@ -23,9 +22,11 @@ export const Spinner = ({
   frames: customFrames,
 }: SpinnerProps) => {
   const builtin = cliSpinners[spinnerType] ?? cliSpinners.dots;
+  // biome-ignore lint/style/noNonNullAssertion: ?? fallback guarantees non-null at runtime
+  const spinner = builtin!;
   const useCustomFrames = customFrames !== undefined;
-  const frames = useCustomFrames ? customFrames : builtin.frames;
-  const frame = useAnimation(useCustomFrames ? fps : { intervalMs: builtin.interval });
+  const frames = useCustomFrames ? customFrames : spinner.frames;
+  const frame = useAnimation(useCustomFrames ? fps : { intervalMs: spinner.interval });
   const icon = frames[frame % frames.length];
   const resolvedColor = color ?? "cyan";
 
