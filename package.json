@@ -6,6 +6,8 @@
   "bin": "src/cli.ts",
   "scripts": {
     "generate:toml": "bun run scripts/generate-plugin-toml.ts",
+    "generate:readme": "bun run scripts/generate-readme.ts",
+    "generate": "bun run scripts/generate-plugin-toml.ts && bun run scripts/generate-readme.ts",
     "typecheck": "bun run --bun tsc --noEmit"
   },
   "private": true,

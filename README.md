@@ -22,7 +22,25 @@ bun install
 herdr plugin link "$PWD"
 ```
 
+## Tools
+
+| ID | Type | Title | Description |
+|---|---|---|---|
+<!-- GENERATED:TOOLS -->
+| `workspace:create` | pane | New Workspace | Create a workspace with an optional name |
+| `workspace:rename` | pane | Rename Workspace | Rename the currently focused workspace |
+| `workspace:switch` | pane | Switch Workspace | List all workspaces and pick one to focus |
+| `tab:create` | pane | New Tab | Create a tab with an optional name |
+| `tab:rename` | pane | Rename Tab | Rename the currently focused tab |
+| `tab:close-other` | pane | Close Other Tabs | Close all non-focused tabs while keeping at least one per workspace |
+| `pane:close-other` | pane | Close Other Panes | Close all non-focused panes |
+| `pane:zoom-toggle` | action | Toggle Zoom | Zoom/unzoom the current pane |
+<!-- /GENERATED:TOOLS -->
+
 ## Usage
+
+Each interactive pane opens an Ink overlay — arrow keys to navigate, `↵` to confirm,
+`esc` to cancel.
 
 Bind any action in `~/.config/herdr/config.toml`:
 
@@ -53,16 +71,6 @@ description = "Close Other Panes"
 ```
 
 Then reload: `herdr server reload-config`.
-
-| Action | What it does |
-|---|---|
-| `workspace:create` | Name and create a new workspace |
-| `workspace:rename` | Rename the currently focused workspace |
-| `tab:close-other` | Close every tab except the focused one |
-| `pane:close-other` | Close every pane except the focused one |
-
-Each opens an interactive Ink overlay — arrow keys to navigate, `↵` to confirm,
-`esc` to cancel.
 
 ## Development
 
