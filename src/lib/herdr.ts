@@ -1,3 +1,4 @@
+// NOTE: HERDR_BIN_PATH allows overriding the binary for testing or custom installs.
 const HERDR = process.env.HERDR_BIN_PATH || "herdr";
 
 export async function herdrJson<T = unknown>(...args: string[]): Promise<T> {

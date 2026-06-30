@@ -19,7 +19,7 @@ export function CloseOtherTabsPrompt() {
         return focused ? "Done" : "No focused tab";
       }
 
-      // Build workspace tab counts to avoid closing last tab in a workspace
+      // NOTE: Track tab counts per workspace to avoid closing the last tab of any workspace.
       const wsCount: Record<string, number> = {};
       for (const t of tabs) {
         const wsKey = t.tab_id.split(":")[0] ?? "";

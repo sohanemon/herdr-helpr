@@ -66,11 +66,11 @@ export const Select = <T = string>({
 
         let optColor: string | undefined;
         if (opt.disabled) {
-          optColor = undefined; // will use dimColor
+          optColor = undefined; // NOTE: dimColor prop handles disabled styling, no explicit color needed.
         } else if (isActive) {
           optColor = resolvedCursorColor;
         } else {
-          optColor = undefined; // terminal default
+          optColor = undefined; // NOTE: Inherit terminal default foreground color.
         }
 
         return (

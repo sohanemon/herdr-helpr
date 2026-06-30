@@ -1,6 +1,7 @@
 import * as React from "react";
 
 type Subscriber = (tick: number) => void;
+// PERF: Shared interval pool — components with the same frame rate share a single setInterval.
 const pool = new Map<
   number,
   { id: ReturnType<typeof setInterval>; subs: Set<Subscriber>; tick: number }

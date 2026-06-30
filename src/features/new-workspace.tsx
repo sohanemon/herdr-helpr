@@ -22,6 +22,7 @@ export function NewWorkspacePrompt() {
         : ["workspace", "create", "--focus"];
       await herdrRun(...args);
       setPhase("done");
+      // NOTE: Brief pause to show success message before closing the overlay.
       setTimeout(() => process.exit(0), 800);
     } catch (e: unknown) {
       setErrorMsg(formatError(e));
