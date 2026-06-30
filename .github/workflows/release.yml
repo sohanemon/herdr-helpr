@@ -25,14 +25,14 @@ jobs:
       - name: Type-check
         run: bun run --bun tsc --noEmit
 
-      - name: Regenerate herdr-plugin.toml from tools registry
-        run: bun run scripts/generate-plugin-toml.ts
+      - name: Regenerate generated files from tools registry
+        run: bun run scripts/generate-plugin-toml.ts && bun run scripts/generate-readme.ts
 
-      - name: Check TOML is up to date (no uncommitted changes)
+      - name: Check generated files are up to date (no uncommitted changes)
         run: |
-          if ! git diff --exit-code herdr-plugin.toml; then
-            echo "❌ herdr-plugin.toml is out of sync with src/tools.ts"
-            echo "   Run 'bun run scripts/generate-plugin-toml.ts' and commit the result."
+          if ! git diff --exit-code herdr-plugin.toml README.md; then
+            echo "❌ Generated files are out of sync with src/tools.ts"
+            echo "   Run 'bun run generate' and commit the result."
             exit 1
           fi
 
