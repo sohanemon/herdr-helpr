@@ -24,9 +24,9 @@ herdr plugin link "$PWD"
 
 ## Tools
 
-| ID | Type | Title | Description |
-|---|---|---|---|
 <!-- GENERATED:TOOLS -->
+| ID | Type | Title | Description |
+| --- | --- | --- | --- |
 | `workspace:create` | pane | New Workspace | Create a workspace with an optional name |
 | `workspace:rename` | pane | Rename Workspace | Rename the currently focused workspace |
 | `workspace:switch` | pane | Switch Workspace | List all workspaces and pick one to focus |
@@ -36,6 +36,7 @@ herdr plugin link "$PWD"
 | `pane:close-other` | pane | Close Other Panes | Close all non-focused panes |
 | `pane:zoom-toggle` | action | Toggle Zoom | Zoom/unzoom the current pane |
 <!-- /GENERATED:TOOLS -->
+
 
 ## Usage
 

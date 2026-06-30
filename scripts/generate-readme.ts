@@ -16,15 +16,9 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const readmePath = resolve(__dirname, "../README.md");
 
-const featuresTable = TOOLS.map(
-  (t) => `| **${t.title}** | ${t.module ? "pane" : "action"} | ${t.description} |`,
-).join("\n");
-
-const usageTable = TOOLS.map(
-  (t) => `| \`${t.id}\` | ${t.description} |`,
-).join("\n");
-
 const generated = `<!-- GENERATED:TOOLS -->
+| ID | Type | Title | Description |
+| --- | --- | --- | --- |
 ${TOOLS.map(
   (t) =>
     `| \`${t.id}\` | ${t.module ? "pane" : "action"} | ${t.title} | ${t.description} |`,

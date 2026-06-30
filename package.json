@@ -1,6 +1,6 @@
 {
   "name": "herdr-helpr",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "module": "src/index.ts",
   "type": "module",
   "bin": "src/cli.ts",
