@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "cli-spinners": "^3.4.0",
-    "ink": "4",
+    "ink": "7",
     "mnemonist": "^0.40.4",
     "react": "19"
   }
