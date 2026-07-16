@@ -35,6 +35,8 @@ herdr plugin link "$PWD"
 | `tab:close-other` | pane | Close Other Tabs | Close all non-focused tabs while keeping at least one per workspace |
 | `pane:close-other` | pane | Close Other Panes | Close all non-focused panes |
 | `pane:zoom-toggle` | action | Toggle Zoom | Zoom/unzoom the current pane |
+| `pane:float` | action | Floating Pane | Toggle a floating terminal pane (like tmux-float) |
+| `tab:float` | action | Floating Tab | Toggle a floating scratch tab (like tmux-float) |
 <!-- /GENERATED:TOOLS -->
 
 

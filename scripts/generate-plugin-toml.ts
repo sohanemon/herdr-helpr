@@ -45,9 +45,18 @@ function generate(): string {
     lines.push("[[actions]]");
     lines.push(`id = ${tomlQuote(tool.id)}`);
     lines.push(`title = ${tomlQuote(tool.title)}`);
-    lines.push(
-      `command = [${tomlQuote("bun")}, ${tomlQuote("run")}, ${tomlQuote("src/actions.ts")}, ${tomlQuote(tool.id)}]`,
-    );
+
+    if (tool.script) {
+      // Script-backed actions run directly, no dispatcher overhead.
+      lines.push(
+        `command = [${tomlQuote("bun")}, ${tomlQuote("run")}, ${tomlQuote(`src/scripts/${tool.script}.ts`)}]`,
+      );
+    } else {
+      // All other tools go through the shared actions.ts dispatcher.
+      lines.push(
+        `command = [${tomlQuote("bun")}, ${tomlQuote("run")}, ${tomlQuote("src/actions.ts")}, ${tomlQuote(tool.id)}]`,
+      );
+    }
     lines.push("");
   }
 

@@ -20,7 +20,7 @@ export interface ToolDef {
    * e.g. "new-workspace" → src/features/new-workspace.tsx
    *
    * Generates both [[actions]] (opens via actions.ts) and [[panes]] entries.
-   * Mutually exclusive with directCommand.
+   * Mutually exclusive with directCommand / script.
    */
   module?: string;
   /**
@@ -28,9 +28,17 @@ export interface ToolDef {
    * e.g. ["pane", "zoom", "--toggle"] — no overlay, no user interaction.
    *
    * Generates only an [[actions]] entry; actions.ts runs this directly.
-   * Mutually exclusive with `module`.
+   * Mutually exclusive with `module` / `script`.
    */
   directCommand?: string[];
+  /**
+   * For script-backed actions (no overlay UI): path in src/scripts/ (without .ts).
+   * e.g. "float-pane" → src/scripts/float-pane.ts
+   *
+   * Generates an [[actions]] entry whose command runs the script directly.
+   * Mutually exclusive with `module` / `directCommand`.
+   */
+  script?: string;
 }
 
 export const TOOLS: ToolDef[] = [
@@ -81,5 +89,17 @@ export const TOOLS: ToolDef[] = [
     title: "Toggle Zoom",
     description: "Zoom/unzoom the current pane",
     directCommand: ["pane", "zoom", "--toggle"],
+  },
+  {
+    id: "pane:float",
+    title: "Floating Pane",
+    description: "Toggle a floating terminal pane (like tmux-float)",
+    script: "float-pane",
+  },
+  {
+    id: "tab:float",
+    title: "Floating Tab",
+    description: "Toggle a floating scratch tab (like tmux-float)",
+    script: "float-tab",
   },
 ];

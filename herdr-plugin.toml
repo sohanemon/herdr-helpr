@@ -50,6 +50,16 @@ id = "pane:zoom-toggle"
 title = "Toggle Zoom"
 command = ["bun", "run", "src/actions.ts", "pane:zoom-toggle"]
 
+[[actions]]
+id = "pane:float"
+title = "Floating Pane"
+command = ["bun", "run", "src/scripts/float-pane.ts"]
+
+[[actions]]
+id = "tab:float"
+title = "Floating Tab"
+command = ["bun", "run", "src/scripts/float-tab.ts"]
+
 [[panes]]
 id = "workspace:create"
 title = "New Workspace"

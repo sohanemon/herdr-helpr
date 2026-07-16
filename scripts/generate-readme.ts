@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+
 /**
  * Generate the tools table section of README.md from the tool registry.
  *
@@ -8,10 +9,10 @@
  * <!-- GENERATED:TOOLS --> markers in README.md.
  */
 
-import { TOOLS } from "@/tools";
 import { readFileSync, writeFileSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { TOOLS } from "@/tools";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const readmePath = resolve(__dirname, "../README.md");
@@ -20,8 +21,7 @@ const generated = `<!-- GENERATED:TOOLS -->
 | ID | Type | Title | Description |
 | --- | --- | --- | --- |
 ${TOOLS.map(
-  (t) =>
-    `| \`${t.id}\` | ${t.module ? "pane" : "action"} | ${t.title} | ${t.description} |`,
+  (t) => `| \`${t.id}\` | ${t.module ? "pane" : "action"} | ${t.title} | ${t.description} |`,
 ).join("\n")}
 <!-- /GENERATED:TOOLS -->`;
 
@@ -38,18 +38,11 @@ if (startIdx === -1 || endIdx === -1) {
   if (devIdx === -1) throw new Error("Could not find '## Development' section in README");
 
   const updated =
-    readme.slice(0, devIdx).trimEnd() +
-    "\n\n" +
-    generated +
-    "\n\n" +
-    readme.slice(devIdx);
+    readme.slice(0, devIdx).trimEnd() + "\n\n" + generated + "\n\n" + readme.slice(devIdx);
   writeFileSync(readmePath, updated);
   console.log("Added GENERATED:TOOLS section before Development");
 } else {
-  const updated =
-    readme.slice(0, startIdx) +
-    generated +
-    readme.slice(endIdx + endMarker.length);
+  const updated = readme.slice(0, startIdx) + generated + readme.slice(endIdx + endMarker.length);
   writeFileSync(readmePath, updated);
   console.log("Updated GENERATED:TOOLS section");
 }

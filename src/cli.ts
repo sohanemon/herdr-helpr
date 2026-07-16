@@ -46,5 +46,15 @@ if (tool.directCommand) {
   process.exit(0);
 }
 
+// NOTE: Script-backed actions (e.g. pane:float) run the script directly.
+if (tool.script) {
+  const proc = Bun.spawn(["bun", "run", `src/scripts/${tool.script}.ts`], {
+    stdout: "inherit",
+    stderr: "inherit",
+  });
+  await proc.exited;
+  process.exit(proc.exitCode);
+}
+
 // NOTE: Pane overlays use herdr's built-in overlay mechanism for interactive TUI.
 await herdrRun("plugin", "pane", "open", "--plugin", "herdr-helpr", "--entrypoint", arg);
